@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_gift_finder/feature/auth/reset_password/new_password_screen.dart';
+import 'package:smart_gift_finder/feature/reset_password/new_password_screen.dart';
 
 void main() {
   runApp(const MyApp());
