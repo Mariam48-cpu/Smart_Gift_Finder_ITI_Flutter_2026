@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_gift_finder/core/network/api_constants.dart';
 
@@ -12,4 +13,6 @@ abstract class InjectableModule {
       receiveTimeout: const Duration(seconds: 30),
     ),
   );
+  @lazySingleton
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 }
