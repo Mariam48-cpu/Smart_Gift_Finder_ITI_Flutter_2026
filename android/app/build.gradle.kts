@@ -10,8 +10,9 @@ plugins {
 
 android {
     namespace = "com.example.smart_gift_finder"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
