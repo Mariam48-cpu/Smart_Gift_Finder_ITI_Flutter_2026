@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import '../../domain/repo/reset_data_source_interface.dart';
 import '../../domain/repo/reset_repo_interface.dart';
 
-@LazySingleton(as: ResetRepoInterface)
+@Injectable(as: ResetRepoInterface)
 class ResetRepoImp implements ResetRepoInterface {
   final ResetDataSourceInterface dataSource;
 
