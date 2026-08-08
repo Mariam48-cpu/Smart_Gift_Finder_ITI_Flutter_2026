@@ -1,72 +1,55 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'core/di/service_locator.dart';
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Firebase
-  await Firebase.initializeApp(
-  );
-
-  // Dependency Injection
-  configureDependencies();
-
-  runApp(const MyApp());
-}
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/di/service_locator.dart';
 import 'feature/auth/data/datasources/auth_remote_data_source.dart';
-import 'firebase_options.dart';
-
 import 'feature/auth/data/repositories/auth_repository_impl.dart';
 import 'feature/auth/domain/usecases/login_usecase.dart';
 import 'feature/auth/domain/usecases/register_usecase.dart';
 import 'feature/auth/presentation/cubit/auth_cubit.dart';
 import 'feature/auth/presentation/screens/login_screen.dart';
+import 'feature/onboarding/domain/repositories/onboarding_repository.dart';
+import 'feature/onboarding/domain/usecases/check_onboarding_status_usecase.dart';
+import 'feature/onboarding/presentation/screens/onboarding_screen.dart';
+import 'firebase_options.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-    debugShowCheckedModeBanner: false,
-
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final remoteDataSource = AuthRemoteDataSource();
+  // Dependency Injection
+  configureDependencies();
 
-  final repository = AuthRepositoryImpl(
-    remoteDataSource,
-  );
-  runApp(
-    MyApp(repository: repository),
-  );
+  // Initial route logic: show onboarding only on the first launch.
+  final onboardingRepository = serviceLocator<OnboardingRepository>();
+  final isOnboardingCompleted =
+      await CheckOnboardingStatusUseCase(onboardingRepository).call();
+
+  runApp(MyApp(showOnboarding: !isOnboardingCompleted));
 }
 
 class MyApp extends StatelessWidget {
-  final AuthRepositoryImpl repository;
+  final bool showOnboarding;
 
-  const MyApp({
-    super.key,
-    required this.repository,
-  });
+  const MyApp({super.key, required this.showOnboarding});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => AuthCubit(
-        loginUseCase: LoginUseCase(repository),
-        registerUseCase: RegisterUseCase(repository),
+        loginUseCase: LoginUseCase(
+          AuthRepositoryImpl(AuthRemoteDataSource()),
+        ),
+        registerUseCase: RegisterUseCase(
+          AuthRepositoryImpl(AuthRemoteDataSource()),
+        ),
       ),
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: showOnboarding ? const OnboardingScreen() : const LoginScreen(),
       ),
     );
   }

@@ -87,9 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.primary,
                         size: 18,
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () {},
                     ),
                   ),
                 ),
