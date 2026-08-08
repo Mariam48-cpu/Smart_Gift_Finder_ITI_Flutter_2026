@@ -27,16 +27,12 @@ import 'package:smart_gift_finder/feature/auth/presentation/screens/register_scr
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Auth setup
   final authRemoteDataSource = AuthRemoteDataSource();
 
-  final authRepository = AuthRepositoryImpl(
-    authRemoteDataSource,
-  );
+  final authRepository = AuthRepositoryImpl(authRemoteDataSource);
 
   // Account setup
   final accountRemoteDataSource = AccountRemoteDataSourceImpl(
@@ -44,15 +40,10 @@ void main() async {
     FirebaseAuth.instance,
   );
 
-  final accountRepository = AccountRepositoryImpl(
-    accountRemoteDataSource,
-  );
+  final accountRepository = AccountRepositoryImpl(accountRemoteDataSource);
 
   runApp(
-    MyApp(
-      authRepository: authRepository,
-      accountRepository: accountRepository,
-    ),
+    MyApp(authRepository: authRepository, accountRepository: accountRepository),
   );
 }
 
@@ -77,11 +68,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        BlocProvider(
-          create: (context) => AccountCubit(
-            accountRepository,
-          ),
-        ),
+        BlocProvider(create: (context) => AccountCubit(accountRepository)),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
