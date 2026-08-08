@@ -35,32 +35,18 @@ return user;
 
 
 @override
-Future<void> updateUserData(
- AccountEntity user,
-) async {
+Future<void> updateUserData(AccountEntity user) async {
+  final model = AccountDto(
+    uid: user.uid,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    birthday: user.birthday,
+    imageUrl: user.imageUrl,
+    address: user.address, 
+  );
 
-
-final model = AccountDto(
-
-uid: user.uid,
-
-name: user.name,
-
-email: user.email,
-
-phone: user.phone,
-
-birthday: user.birthday,
-
-imageUrl: user.imageUrl, address: '',
-
-);
-
-
-await remoteDataSource.updateProfile(model);
-
-
+  await remoteDataSource.updateProfile(model);
 }
-
 
 }

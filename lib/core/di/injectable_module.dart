@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_gift_finder/core/network/api_constants.dart';
 
-@module
+@module 
 abstract class InjectableModule {
   @injectable
   Dio get dio => Dio(
