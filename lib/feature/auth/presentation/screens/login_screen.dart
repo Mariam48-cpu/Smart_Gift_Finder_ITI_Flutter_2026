@@ -178,8 +178,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-
-                // Remember Me & Forgot Password Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -256,7 +254,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Google Sign In Outlined Button
                 OutlinedButton(
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
@@ -290,7 +287,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 32),
 
-                // Don't have an account? Create Account
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
