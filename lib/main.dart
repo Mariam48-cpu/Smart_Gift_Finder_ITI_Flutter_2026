@@ -3,29 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:smart_gift_finder/firebase_options.dart';
-
-// Core
 import 'package:smart_gift_finder/core/di/service_locator.dart';
-
-// Auth
+import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_imp.dart';
+import 'package:smart_gift_finder/feature/account/data/repository/account_repository_impl.dart';
+import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
 import 'package:smart_gift_finder/feature/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:smart_gift_finder/feature/auth/data/repositories/auth_repository_impl.dart';
 import 'package:smart_gift_finder/feature/auth/domain/usecases/login_usecase.dart';
 import 'package:smart_gift_finder/feature/auth/domain/usecases/register_usecase.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/cubit/auth_cubit.dart';
-
-// Account
-import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_imp.dart';
-import 'package:smart_gift_finder/feature/account/data/repository/account_repository_impl.dart';
-import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
-
-// Screens
 import 'package:smart_gift_finder/feature/auth/presentation/screens/register_screen.dart';
+import 'package:smart_gift_finder/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  configureDependencies();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -76,7 +69,6 @@ class MyApp extends StatelessWidget {
             registerUseCase: RegisterUseCase(authRepository),
           ),
         ),
-
         BlocProvider(
           create: (context) => AccountCubit(
             accountRepository,
