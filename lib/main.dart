@@ -24,7 +24,7 @@ class SmartGiftFinderApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Smart Gift Finder',
       theme: AppTheme.lightTheme,
-      initialRoute: Routes.splash,
+      initialRoute: Routes.productDetails,
       onGenerateRoute: AppRouter.onGenerateRoute,
     );
   }

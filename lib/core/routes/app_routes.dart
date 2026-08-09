@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../features/product_details/presentation/view/screens/product_details_screen.dart';
 
 abstract class Routes {
   static const String splash = '/';
@@ -103,9 +104,7 @@ abstract class AppRouter {
 
       case Routes.productDetails:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('Product Details Screen')),
-          ),
+          builder: (_) => const ProductDetailsScreen(),
         );
 
       case Routes.cart:
