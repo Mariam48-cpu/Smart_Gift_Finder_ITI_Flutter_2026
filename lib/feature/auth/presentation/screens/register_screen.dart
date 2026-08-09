@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
 import 'package:smart_gift_finder/feature/account/presentation/screens/account_screen.dart';
+import 'package:smart_gift_finder/feature/auth/presentation/screens/login_screen.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utlis/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -91,7 +92,10 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                             size: 18,
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                            );
                           },
                         ),
                       ),

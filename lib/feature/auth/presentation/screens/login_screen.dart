@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/ services/secure_storage_service.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utlis/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../cart/presentation/cubit/cart_cubit.dart';
+import '../../../cart/presentation/screens/cart_screen.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 class LoginScreen extends StatefulWidget {
@@ -38,6 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login Successfully")),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (_) => serviceLocator<CartCubit>()..loadCart(),
+                child: const CartScreen(),
+              ),
+            ),
           );
 
           final token = await FirebaseAuth.instance.currentUser?.getIdToken();
