@@ -67,7 +67,7 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  crossAxisAlignment: .center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 10),
                     Align(
