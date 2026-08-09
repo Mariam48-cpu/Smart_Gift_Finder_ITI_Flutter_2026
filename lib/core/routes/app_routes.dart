@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../features/product_details/presentation/view/screens/product_details_screen.dart';
+import '../../feature/product_details/presentation/view/screens/product_details_screen.dart';
 
 abstract class Routes {
   static const String splash = '/';
