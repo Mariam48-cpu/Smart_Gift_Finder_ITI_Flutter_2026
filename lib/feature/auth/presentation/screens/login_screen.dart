@@ -69,8 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: .center,
               children: [
                 const SizedBox(height: 10),
-
-                // Back Icon Button
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -95,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Titles
                 const Text(
                   'Welcome Back',
                   style: TextStyle(
@@ -113,8 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 36),
-
-                // Email Field Title & Input
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -138,11 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: AppColors.border,
                   ),
                 ),
-
-
                 const SizedBox(height: 20),
-
-                // Password Field Title & Input
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -223,8 +214,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Sign In Primary Button
                 CustomButton(
                   text: "Sign In",
                   icon: Icons.arrow_forward,
@@ -239,8 +228,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 28),
-
-                // Divider (OR CONTINUE WITH)
                 Row(
                   children: const [
                     Expanded(child: Divider(color: AppColors.borderTransparent)),
