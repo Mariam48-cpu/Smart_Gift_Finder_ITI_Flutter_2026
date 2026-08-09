@@ -13,21 +13,33 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("My Account"), centerTitle: true),
-      body: BlocBuilder<AccountCubit, AccountState>(
+      body: BlocConsumer<AccountCubit, AccountState>(
+        listener: (context, state) {
+          if (state is AccountError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
-          if (state is AccountLoading) {
+          if (state is AccountLoading &&
+              context.read<AccountCubit>().account == null) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state is AccountError) {
-            return Center(child: Text(state.message));
-          }
-
-          // 🟢 جلب بيانات المستخدم الحالية من الـ Cubit
-          final user = context.read<AccountCubit>().account;
+          final cubit = context.read<AccountCubit>();
+          final user = cubit.account;
 
           if (user == null) {
-            return const Center(child: Text("No user data found"));
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => cubit.getUserData(),
+                child: const Text("Retry loading account"),
+              ),
+            );
           }
 
           return SingleChildScrollView(
@@ -36,20 +48,15 @@ class AccountScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
 
-                BlocBuilder<AccountCubit, AccountState>(
-                  builder: (context, state) {
-                    final cubit = context.read<AccountCubit>();
-                    return ProfileImagePicker(
-                      imageUrl: user.imageUrl.isNotEmpty ? user.imageUrl : null,
-                      imageBytes: cubit.selectedImageBytes,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const EditProfileScreen(),
-                          ),
-                        );
-                      },
+                ProfileImagePicker(
+                  imageUrl: user.imageUrl.isNotEmpty ? user.imageUrl : null,
+                  imageBytes: null,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const EditProfileScreen(),
+                      ),
                     );
                   },
                 ),
@@ -66,7 +73,6 @@ class AccountScreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                // 🟢 البيانات الحقيقية الديناميكية
                 ProfileInfoTile(
                   title: "Full Name",
                   value: user.name.isNotEmpty ? user.name : "Not set",

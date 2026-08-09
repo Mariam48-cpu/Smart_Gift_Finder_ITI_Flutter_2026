@@ -19,7 +19,8 @@ class AccountCubit extends Cubit<AccountState> {
 
   AccountEntity? account;
 
-  File? selectedImage;
+  XFile? selectedXFile;
+  Uint8List? selectedImageBytes;
 
   Future<void> getUserData() async {
     emit(AccountLoading());
@@ -41,24 +42,20 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  XFile? selectedXFile; // 🟢 نستخدم XFile بدلاً من File
-  Uint8List? selectedImageBytes; // للـ Preview على الويب
-
   Future<void> pickImageFromGallery() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
       selectedXFile = image;
-      selectedImageBytes = await image.readAsBytes(); // بيشتغل ويب وموبايل
-      emit(AccountImagePickedState()); // إعادة رسم الشاشة لرؤية المعاينة
+      selectedImageBytes = await image.readAsBytes();
+      emit(AccountImagePickedState());
     }
   }
 
   Future<void> pickImageFromCamera() async {
     try {
       final ImagePicker picker = ImagePicker();
-
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
 
       if (image != null) {
@@ -70,36 +67,30 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountError(e.toString()));
     }
   }
-
   Future<void> updateProfile(AccountEntity user) async {
     emit(AccountLoading());
     try {
       String finalImageUrl = user.imageUrl;
-
-      // 🟢 1. رفع الصورة لو فيه صورة جديدة مختارة
       if (selectedXFile != null || selectedImageBytes != null) {
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('profile_images')
             .child('${user.uid}.jpg');
 
+        SettableMetadata metadata = SettableMetadata(
+          contentType: 'image/jpeg',
+          cacheControl: 'max-age=0', 
+        );
+
         if (kIsWeb) {
           final bytes =
               selectedImageBytes ?? await selectedXFile!.readAsBytes();
-          await storageRef.putData(
-            bytes,
-            SettableMetadata(contentType: 'image/jpeg'),
-          );
+          await storageRef.putData(bytes, metadata);
         } else {
-          await storageRef.putFile(File(selectedXFile!.path));
+          await storageRef.putFile(File(selectedXFile!.path), metadata);
         }
-
-        // 🟢 2. جلب رابط الصورة بعد الرفع
         finalImageUrl = await storageRef.getDownloadURL();
-        print("Uploaded Image URL: $finalImageUrl"); // للتأكد في الـ Console
       }
-
-      // 🟢 3. إنشاء الكائن بالرابط الجديد
       final updatedUser = AccountEntity(
         uid: user.uid,
         name: user.name,
@@ -107,18 +98,14 @@ class AccountCubit extends Cubit<AccountState> {
         phone: user.phone,
         address: user.address,
         birthday: user.birthday,
-        imageUrl: finalImageUrl, // 👈 إرسال الرابط الجديد هنا
+        imageUrl: finalImageUrl,
       );
-
-      // 🟢 4. حفظ الكائن في Firestore
       await accountRepository.updateUserData(updatedUser);
-
       account = updatedUser;
       selectedXFile = null;
       selectedImageBytes = null;
       emit(AccountSuccess(updatedUser));
     } catch (e) {
-      print("Error updating profile: $e");
       emit(AccountError(e.toString()));
     }
   }

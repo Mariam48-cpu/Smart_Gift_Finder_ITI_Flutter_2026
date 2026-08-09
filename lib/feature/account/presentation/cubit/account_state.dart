@@ -20,6 +20,4 @@ class AccountError extends AccountState {
   AccountError(this.message);
 }
 
-//
-
 class AccountImagePickedState extends AccountState {}

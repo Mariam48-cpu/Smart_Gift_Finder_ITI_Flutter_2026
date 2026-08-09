@@ -8,8 +8,10 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  final List<TextEditingController> _controllers =
-      List.generate(4, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
 
   @override
@@ -42,7 +44,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Back Button (Top Left)
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -71,7 +72,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Lock/Shield Icon Badge
                 Container(
                   width: 72,
                   height: 72,
@@ -94,7 +94,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Header Titles
                 const Text(
                   "Verification",
                   textAlign: TextAlign.center,
@@ -119,7 +118,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 const SizedBox(height: 32),
 
-                // Main Card Container
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
@@ -150,8 +148,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-
-                      // 4-Digit OTP Input Fields
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(4, (index) {
@@ -200,8 +196,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         }),
                       ),
                       const SizedBox(height: 24),
-
-                      // Resend Text
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -215,7 +209,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Add resend logic here
                             },
                             child: const Text(
                               "Resend",
@@ -229,10 +222,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
-
-                      // Verify Button
-                      SizedBox(
+                      const SizedBox(height: 24),                      SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: DecoratedBox(
@@ -244,7 +234,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              String code = _controllers.map((e) => e.text).join();
+                              String code = _controllers
+                                  .map((e) => e.text)
+                                  .join();
                               // Perform code verification logic
                             },
                             style: ElevatedButton.styleFrom(
@@ -270,8 +262,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Back to Login Link
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: Row(
@@ -296,8 +286,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-
-                // Support Link Footer
                 RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(
