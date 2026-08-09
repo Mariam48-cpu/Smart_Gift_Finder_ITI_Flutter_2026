@@ -9,7 +9,8 @@ class NewPasswordScreen extends StatefulWidget {
 
 class _NewPasswordScreenState extends State<NewPasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -40,7 +41,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Back Button (Top Left)
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -68,8 +68,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Lock Icon Badge
                 Container(
                   width: 72,
                   height: 72,
@@ -91,8 +89,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Header Titles
                 const Text(
                   "New Password",
                   textAlign: TextAlign.center,
@@ -116,8 +112,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-
-                // Main Card Container
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
@@ -139,7 +133,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Enter New Password Label & Input
                       const Text(
                         "Enter New Password",
                         style: TextStyle(
@@ -206,8 +199,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-
-                      // Confirm Password Label & Input
                       const Text(
                         "Confirm Password",
                         style: TextStyle(
@@ -275,8 +266,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
-
-                      // Submit Button
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -288,9 +277,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             ),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {
-                              // Perform password submit logic
-                            },
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
@@ -314,8 +301,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Back to Login Link
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: Row(
@@ -340,8 +325,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-
-                // Support Link Footer
                 RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(

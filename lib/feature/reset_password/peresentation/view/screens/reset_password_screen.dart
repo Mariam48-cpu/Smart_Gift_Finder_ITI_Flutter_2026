@@ -70,7 +70,6 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Back Button
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -109,8 +108,6 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Reset Password Form
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.symmetric(horizontal: 16),

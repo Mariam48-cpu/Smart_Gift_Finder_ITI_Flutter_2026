@@ -1,8 +1,6 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
 
 import 'account_data_source_interface.dart';
@@ -36,23 +34,14 @@ class AccountRemoteDataSourceImpl implements AccountDataSourceInterface {
         .set(user.toJson(), SetOptions(merge: true));
   }
 
-  Future<String> uploadProfileImage(File imageFile, String uid) async {
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('profile_images')
-        .child('$uid.jpg');
-
-    await ref.putFile(imageFile);
-    return await ref.getDownloadURL();
-  }
-
+  @override
   Future<void> updateUserData(AccountEntity user) async {
-    await firestore.collection('users').doc(user.uid).update({
+    await firestore.collection('users').doc(user.uid).set({
       'name': user.name,
       'phone': user.phone,
       'address': user.address,
       'birthday': user.birthday,
       'imageUrl': user.imageUrl,
-    });
+    }, SetOptions(merge: true));
   }
 }

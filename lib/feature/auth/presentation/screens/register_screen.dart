@@ -42,13 +42,11 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Account Created Successfully!")),
           );
-
-          // 🟢 يجيب بيانات المستخدم المضاف حديثاً من Firestore ويفتح شاشة الـ Account
           context.read<AccountCubit>().getUserData();
 
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const AccountScreen()),
+            MaterialPageRoute(builder: (_) => AccountScreen()),
           );
         }
         if (state is AuthError) {
@@ -72,8 +70,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                   crossAxisAlignment: .center,
                   children: [
                     const SizedBox(height: 10),
-
-                    // Back Icon Button
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
@@ -97,8 +93,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // Title & Subtitle
                     const Text(
                       'Create Account',
                       style: TextStyle(
@@ -118,8 +112,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 32),
-
-                    // Full Name Input Field
                     CustomTextField(
                       controller: _fullNameController,
                       hintText: "Full Name",
@@ -130,8 +122,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Email Address Input Field
                     CustomTextField(
                       controller: _emailController,
                       hintText: "Email Address",
@@ -144,7 +134,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Password Input Field
                     CustomTextField(
                       controller: _passwordController,
                       hintText: "Password",
@@ -170,7 +159,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Confirm Password Input Field
                     CustomTextField(
                       controller: _confirmPasswordController,
                       hintText: "Confirm Password",
@@ -200,7 +188,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 28),
 
-                    // Create Account Button
                     CustomButton(
                       text: "Create Account",
                       icon: Icons.arrow_forward,
@@ -217,7 +204,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 28),
 
-                    // Divider
                     Row(
                       children: const [
                         Expanded(
@@ -241,7 +227,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 24),
 
-                    // Google Sign Up Button
                     Container(
                       width: double.infinity,
                       height: 50,
@@ -275,8 +260,6 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 32),
-
-                    // Log in link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
