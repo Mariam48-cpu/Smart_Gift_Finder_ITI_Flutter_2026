@@ -1,31 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'core/theme/app_theme.dart';
-import 'core/routes/app_routes.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_gift_finder/feature/home/presentation/view/screens/home_screen.dart';
+import 'package:smart_gift_finder/firebase_options.dart';
+import 'package:smart_gift_finder/feature/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:smart_gift_finder/feature/auth/data/repositories/auth_repository_impl.dart';
+import 'package:smart_gift_finder/feature/auth/domain/usecases/login_usecase.dart';
+import 'package:smart_gift_finder/feature/auth/domain/usecases/register_usecase.dart';
+import 'package:smart_gift_finder/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_imp.dart';
+import 'package:smart_gift_finder/feature/account/data/repository/account_repository_impl.dart';
+import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  final authRemoteDataSource = AuthRemoteDataSource();
+  final authRepository = AuthRepositoryImpl(authRemoteDataSource);
+  final accountRemoteDataSource = AccountRemoteDataSourceImpl(
+    FirebaseFirestore.instance,
+    FirebaseAuth.instance,
+  );
 
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  final accountRepository = AccountRepositoryImpl(accountRemoteDataSource);
 
-  await Future.delayed(const Duration(seconds: 2));
-
-  FlutterNativeSplash.remove();
-
-  runApp(const SmartGiftFinderApp());
+  runApp(
+    MyApp(authRepository: authRepository, accountRepository: accountRepository),
+  );
 }
 
-class SmartGiftFinderApp extends StatelessWidget {
-  const SmartGiftFinderApp({super.key});
+class MyApp extends StatelessWidget {
+  final AuthRepositoryImpl authRepository;
+  final AccountRepositoryImpl accountRepository;
+
+  const MyApp({
+    super.key,
+    required this.authRepository,
+    required this.accountRepository,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Smart Gift Finder',
-      theme: AppTheme.lightTheme,
-      initialRoute: Routes.productDetails,
-      onGenerateRoute: AppRouter.onGenerateRoute,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthCubit(
+            loginUseCase: LoginUseCase(authRepository),
+            registerUseCase: RegisterUseCase(authRepository),
+          ),
+        ),
+
+        BlocProvider(create: (context) => AccountCubit(accountRepository)),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     );
   }
 }
