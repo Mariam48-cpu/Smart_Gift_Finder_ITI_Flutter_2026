@@ -12,11 +12,7 @@ class AIGiftResponseDTO {
 
     return AIGiftResponseDTO(
       gifts: giftsJson
-          .map(
-            (gift) => AIGiftDTO.fromJson(
-              gift as Map<String, dynamic>,
-            ),
-          )
+          .map((gift) => AIGiftDTO.fromJson(gift as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -41,7 +37,7 @@ class AIGiftDTO {
     return AIGiftDTO(
       name: json['name'] as String? ?? '',
       reasoning: json['reasoning'] as String? ?? '',
-      estimatedPrice: (json['estimatedPrice'] as num?)?.toDouble() ?? 0,
+      estimatedPrice: (json['estimatedPrice'] as num?)?.toDouble() ?? 0.0,
     );
   }
 
