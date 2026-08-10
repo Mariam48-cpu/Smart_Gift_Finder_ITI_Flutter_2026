@@ -22,8 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigate() async {
     final prefs = await SharedPreferences.getInstance();
-    final isFirstTime =
-        prefs.getBool(AppConstants.onboardingFlagKey) ?? true;
+    final isFirstTime = prefs.getBool(AppConstants.onboardingFlagKey) ?? true;
     final isLoggedIn = FirebaseAuth.instance.currentUser != null;
 
     String route;
@@ -48,9 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/image/splash_logo.png',
-              width: 140,
-              height: 140,
+              'assets/image/splash_scrren_logo.png',
+              width: 350,
+              height: 350,
               errorBuilder: (context, error, stackTrace) => const Icon(
                 Icons.card_giftcard,
                 size: 120,
@@ -63,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary,
+                color: AppColors.background,
               ),
             ),
             const SizedBox(height: 32),

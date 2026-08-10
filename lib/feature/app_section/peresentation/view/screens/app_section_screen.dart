@@ -17,6 +17,7 @@ class AppSectionScreen extends StatefulWidget {
   @override
   State<AppSectionScreen> createState() => _AppSectionScreenState();
 }
+
 class _AppSectionScreenState extends State<AppSectionScreen> {
   @override
   void initState() {
@@ -69,7 +70,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.shippingAddressIcon,
+                    path: AppAssets.cartIcon,
                     index: 2,
                     currentIndex: cubit.currentIndex,
                   ),
@@ -77,7 +78,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.savedIcon,
+                    path: AppAssets.favoriteIcon,
                     index: 3,
                     currentIndex: cubit.currentIndex,
                   ),
@@ -85,7 +86,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.userProfilePhotoIcon,
+                    path: AppAssets.profilePhotoIcon,
                     index: 4,
                     currentIndex: cubit.currentIndex,
                   ),

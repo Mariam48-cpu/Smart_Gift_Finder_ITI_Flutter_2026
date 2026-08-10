@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/core/routes/app_routes.dart';
+import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
+import 'package:smart_gift_finder/feature/account/presentation/cubit/account_state.dart';
 import 'package:smart_gift_finder/feature/home/data/datasources/home_data_source_imp.dart';
 import 'package:smart_gift_finder/feature/home/data/repo/home_repo_imp.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_categories_use_case.dart';
@@ -37,20 +39,22 @@ class HomeScreen extends StatelessWidget {
           elevation: 0,
           title: Row(
             children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundColor: Colors.grey.shade200,
-                child: ClipOval(
-                  child: Image.network(
-                    'https://i.pravatar.cc/100',
-                    width: 36,
-                    height: 36,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.person, color: Colors.grey);
-                    },
-                  ),
-                ),
+              BlocBuilder<AccountCubit, AccountState>(
+                builder: (context, state) {
+                  final imageUrl = state is AccountSuccess &&
+                          state.account.imageUrl.isNotEmpty
+                      ? state.account.imageUrl
+                      : null;
+                  return CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.grey.shade200,
+                    backgroundImage:
+                        imageUrl != null ? NetworkImage(imageUrl) : null,
+                    child: imageUrl == null
+                        ? const Icon(Icons.person, color: Colors.grey)
+                        : null,
+                  );
+                },
               ),
               const SizedBox(width: 12),
               const Text(
@@ -95,7 +99,8 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF3B28CC).withValues(alpha: 0.3),
+                            color:
+                                const Color(0xFF3B28CC).withValues(alpha: 0.3),
                             blurRadius: 12,
                             offset: const Offset(0, 6),
                           ),
@@ -224,11 +229,11 @@ class HomeScreen extends StatelessWidget {
                             itemCount: state.products.length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.65,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                ),
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.65,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                            ),
                             itemBuilder: (context, index) {
                               final product = state.products[index];
                               return ProductItemCard(
@@ -256,13 +261,6 @@ class HomeScreen extends StatelessWidget {
                                   );
 
                                   if (!context.mounted) return;
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const CartScreen(),
-                                    ),
-                                  );
                                 },
                               );
                             },
