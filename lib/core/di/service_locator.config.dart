@@ -15,18 +15,30 @@ import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:smart_gift_finder/core/di/injectable_module.dart' as _i801;
-
 import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_imp.dart'
     as _i304;
 import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_interface.dart'
     as _i483;
-import 'package:smart_gift_finder/feature/account/data/repository/account_repository_impl.dart'
-    as _i304;
 import 'package:smart_gift_finder/feature/account/domain/repository/account_repository_interface.dart'
     as _i738;
 import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart'
     as _i14;
-
+import 'package:smart_gift_finder/feature/cart/data/datasource/cart_remote_datasource.dart'
+    as _i758;
+import 'package:smart_gift_finder/feature/cart/data/repository/cart_repository_impl.dart'
+    as _i657;
+import 'package:smart_gift_finder/feature/cart/domain/repository/cart_repository.dart'
+    as _i746;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/add_to_cart.dart'
+    as _i110;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/get_cart.dart'
+    as _i559;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/remove_from_cart.dart'
+    as _i403;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/update_cart_quantity.dart'
+    as _i816;
+import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dart'
+    as _i977;
 import 'package:smart_gift_finder/feature/reset_password/data/repo/reset_data_source_imp.dart'
     as _i956;
 import 'package:smart_gift_finder/feature/reset_password/data/repo/reset_repo_imp.dart'
@@ -48,12 +60,30 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final injectableModule = _$InjectableModule();
-    gh.factory<_i361.Dio>(() => injectableModule.dio);
-
-    gh.factory<_i59.FirebaseAuth>(() => injectableModule.firebaseAuth);
-    gh.factory<_i974.FirebaseFirestore>(() => injectableModule.firestore);
+    gh.lazySingleton<_i361.Dio>(() => injectableModule.dio);
+    gh.lazySingleton<_i59.FirebaseAuth>(() => injectableModule.firebaseAuth);
+    gh.lazySingleton<_i974.FirebaseFirestore>(() => injectableModule.firestore);
     gh.factory<_i14.AccountCubit>(
       () => _i14.AccountCubit(gh<_i738.AccountRepositoryInterface>()),
+    );
+    gh.factory<_i758.CartRemoteDataSource>(
+      () => _i758.CartRemoteDataSource(
+        firestore: gh<_i974.FirebaseFirestore>(),
+        auth: gh<_i59.FirebaseAuth>(),
+      ),
+    );
+    gh.factory<_i746.CartRepository>(
+      () => _i657.CartRepositoryImpl(gh<_i758.CartRemoteDataSource>()),
+    );
+    gh.factory<_i110.AddToCart>(
+      () => _i110.AddToCart(gh<_i746.CartRepository>()),
+    );
+    gh.factory<_i559.GetCart>(() => _i559.GetCart(gh<_i746.CartRepository>()));
+    gh.factory<_i403.RemoveFromCart>(
+      () => _i403.RemoveFromCart(gh<_i746.CartRepository>()),
+    );
+    gh.factory<_i816.UpdateCartQuantity>(
+      () => _i816.UpdateCartQuantity(gh<_i746.CartRepository>()),
     );
     gh.factory<_i483.AccountDataSourceInterface>(
       () => _i304.AccountRemoteDataSourceImpl(
@@ -61,10 +91,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i59.FirebaseAuth>(),
       ),
     );
-    gh.factory<_i738.AccountRepositoryInterface>(
-      () => _i304.AccountRepositoryImpl(gh<_i483.AccountDataSourceInterface>()),
-    );
-    gh.lazySingleton<_i59.FirebaseAuth>(() => injectableModule.firebaseAuth);
     gh.factory<_i301.ResetDataSourceInterface>(
       () => _i956.ResetDataSourceImp(gh<_i59.FirebaseAuth>()),
     );
@@ -76,6 +102,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i879.ResetCubit>(
       () => _i879.ResetCubit(gh<_i439.ResetPasswordUseCase>()),
+    );
+    gh.factory<_i977.CartCubit>(
+      () => _i977.CartCubit(
+        getCart: gh<_i559.GetCart>(),
+        addToCart: gh<_i110.AddToCart>(),
+        updateCartQuantity: gh<_i816.UpdateCartQuantity>(),
+        removeFromCart: gh<_i403.RemoveFromCart>(),
+      ),
     );
     return this;
   }
