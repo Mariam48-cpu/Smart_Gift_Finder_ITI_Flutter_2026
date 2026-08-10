@@ -1,0 +1,41 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "smart-gift-finder-3f665",
+          "appId": "1:250553252113:android:2a959b66500dc809b074b0",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "smart-gift-finder-3f665",
+          "configurations": {
+            "android": "1:250553252113:android:2a959b66500dc809b074b0",
+            "ios": "1:250553252113:ios:9ab28e6fad6787abb074b0",
+            "web": "1:250553252113:web:0c358429b7095721b074b0",
+            "windows": "1:250553252113:web:4103fc967e3a4a4db074b0"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}
