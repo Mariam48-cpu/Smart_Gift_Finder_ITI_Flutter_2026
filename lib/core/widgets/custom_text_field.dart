@@ -34,6 +34,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       textInputAction: textInputAction,
+      onChanged: onChanged,
       style: const TextStyle(
         fontSize: 14,
         color: AppColors.textDark,

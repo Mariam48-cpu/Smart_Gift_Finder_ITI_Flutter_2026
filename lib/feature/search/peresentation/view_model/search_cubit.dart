@@ -38,12 +38,11 @@ class SearchCubit extends Cubit<SearchStates> {
 
   Future<void> searchProducts(String query) async {
     emit(SearchLoadingState());
-
     try {
       final results = await _searchProductsUseCase.invoke(query);
-
       emit(SearchSuccessState(results));
     } catch (error) {
+   
       emit(SearchErrorState(error.toString()));
     }
   }

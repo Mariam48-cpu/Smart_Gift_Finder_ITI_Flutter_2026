@@ -6,6 +6,7 @@ import 'package:smart_gift_finder/feature/home/data/repo/home_repo_imp.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_categories_use_case.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_productbycategory_use_case.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_products_use_case.dart';
+import 'package:smart_gift_finder/feature/search/peresentation/view/screens/search_screen.dart';
 import '../../../../../core/widgets/product_item_card.dart';
 import '../../view_model/home_cubit.dart';
 import '../../view_model/home_state.dart';
@@ -60,7 +61,14 @@ class HomeScreen extends StatelessWidget {
               const Spacer(),
               IconButton(
                 icon: const Icon(Icons.search, color: Colors.black),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
