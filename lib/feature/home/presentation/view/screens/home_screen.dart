@@ -64,7 +64,9 @@ class HomeScreen extends StatelessWidget {
               const Spacer(),
               IconButton(
                 icon: const Icon(Icons.search, color: Colors.black),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.search);
+                },
               ),
             ],
           ),

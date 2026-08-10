@@ -15,6 +15,7 @@ import 'package:smart_gift_finder/feature/auth/domain/usecases/login_usecase.dar
 import 'package:smart_gift_finder/feature/auth/domain/usecases/register_usecase.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dart';
+import 'package:smart_gift_finder/feature/search/peresentation/view_model/search_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,13 +24,19 @@ void main() async {
   configureDependencies();
 
   final authRemoteDataSource = AuthRemoteDataSource();
-  final authRepository = AuthRepositoryImpl(authRemoteDataSource);
+
+  final authRepository = AuthRepositoryImpl(
+    authRemoteDataSource,
+  );
+
   final accountRemoteDataSource = AccountRemoteDataSourceImpl(
     FirebaseFirestore.instance,
     FirebaseAuth.instance,
   );
 
-  final accountRepository = AccountRepositoryImpl(accountRemoteDataSource);
+  final accountRepository = AccountRepositoryImpl(
+    accountRemoteDataSource,
+  );
 
   runApp(
     MyApp(
@@ -61,6 +68,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (context) => AccountCubit(accountRepository)),
         BlocProvider(create: (context) => serviceLocator<CartCubit>()),
+        BlocProvider(create: (context) => serviceLocator<SearchCubit>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

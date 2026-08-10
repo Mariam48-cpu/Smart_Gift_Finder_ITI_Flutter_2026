@@ -14,6 +14,7 @@ import '../../feature/product_details/presentation/view/screens/product_details_
 import '../../feature/reset_password/new_password_screen.dart';
 import '../../feature/reset_password/peresentation/view/screens/reset_password_screen.dart';
 import '../../feature/reset_password/verification_screen.dart';
+import '../../feature/search/peresentation/view/screens/search_screen.dart';
 import '../../feature/splash/splash_view.dart';
 import '../../feature/wishlist/peresentation/view/screens/wish_list.dart';
 
@@ -95,7 +96,7 @@ abstract class AppRouter {
         );
 
       case Routes.search:
-        return _placeholder('Search Screen');
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
 
       case Routes.aiGiftFinder:
         return MaterialPageRoute(builder: (_) => const AIFinderScreen());
