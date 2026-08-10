@@ -12,11 +12,9 @@ import 'package:smart_gift_finder/feature/wishlist/peresentation/view/screens/wi
 
 class AppSectionScreen extends StatefulWidget {
   const AppSectionScreen({super.key});
-
   @override
   State<AppSectionScreen> createState() => _AppSectionScreenState();
 }
-
 class _AppSectionScreenState extends State<AppSectionScreen> {
   @override
   Widget build(BuildContext context) {
@@ -43,7 +41,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
               items: [
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.homeIconSvg,
+                    path: AppAssets.homeIcon,
                     index: 0,
                     currentIndex: cubit.currentIndex,
                   ),
@@ -51,7 +49,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.aiIconSvg,
+                    path: AppAssets.aiIcon,
                     index: 1,
                     currentIndex: cubit.currentIndex,
                   ),
@@ -59,7 +57,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.cartIconSvg,
+                    path: AppAssets.shippingAddressIcon,
                     index: 2,
                     currentIndex: cubit.currentIndex,
                   ),
@@ -67,7 +65,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.favIconSvg,
+                    path: AppAssets.savedIcon,
                     index: 3,
                     currentIndex: cubit.currentIndex,
                   ),
@@ -75,7 +73,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: NavIcon(
-                    path: AppAssets.accountIconSvg,
+                    path: AppAssets.userProfilePhotoIcon,
                     index: 4,
                     currentIndex: cubit.currentIndex,
                   ),

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_gift_finder/feature/ai_finder/presentation/view/screens/ai_finder_screen.dart';
+import 'package:smart_gift_finder/feature/ai_finder/peresentation/view/screens/ai_finder_screen.dart';
 import 'package:smart_gift_finder/firebase_options.dart';
 import 'package:smart_gift_finder/feature/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:smart_gift_finder/feature/auth/data/repositories/auth_repository_impl.dart';
