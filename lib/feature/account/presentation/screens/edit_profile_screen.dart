@@ -89,9 +89,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 backgroundColor: Colors.green,
               ),
             );
-            Navigator.pop(context);
+            Navigator.pop(context); 
           } else if (state is AccountError) {
-            // 🟢 إظهار الخطأ المباشر لمنع تعليق زرار الـ Loading
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("حدث خطأ: ${state.message}"),
@@ -101,7 +100,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           }
         },
         builder: (context, state) {
-          // 🟢 مراقبة التغيرات لحظياً لإظهار الصورة فور اختيارها
           final cubit = context.watch<AccountCubit>();
           final currentAccount = cubit.account;
           final isLoading = state is AccountLoading;
@@ -111,8 +109,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-
-                // 🟢 المعاينة اللحظية باستخدام selectedImageBytes
                 ProfileImagePicker(
                   imageUrl: currentAccount?.imageUrl.isNotEmpty == true
                       ? currentAccount!.imageUrl
@@ -130,7 +126,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 const SizedBox(height: 30),
 
-                // حقل الاسم
                 CustomProfileTextField(
                   title: "Full Name",
                   hintText: "Enter your full name",
@@ -138,7 +133,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: _nameController,
                 ),
 
-                // حقل البريد (معطل)
                 CustomProfileTextField(
                   title: "Email Address",
                   hintText: "Email address",
@@ -147,7 +141,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: false,
                 ),
 
-                // حقل الهاتف
                 CustomProfileTextField(
                   title: "Phone Number",
                   hintText: "Enter phone number",
@@ -156,7 +149,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: _phoneController,
                 ),
 
-                // حقل العنوان
                 CustomProfileTextField(
                   title: "Address",
                   hintText: "Enter your address",
@@ -164,7 +156,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: _addressController,
                 ),
 
-                // حقل تاريخ الميلاد
                 CustomProfileTextField(
                   title: "Birthday (Optional)",
                   hintText: "DD/MM/YYYY",
@@ -174,7 +165,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 const SizedBox(height: 30),
 
-                // زر الحفظ
                 isLoading
                     ? const CircularProgressIndicator()
                     : CustomSaveButton(

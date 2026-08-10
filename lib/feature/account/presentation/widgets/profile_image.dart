@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ProfileImagePicker extends StatelessWidget {
   final String? imageUrl;
-  final Uint8List? imageBytes; // 🟢 دعم الـ Bytes المعاينة للويب والموبايل
+  final Uint8List? imageBytes; 
   final VoidCallback onTap;
 
   const ProfileImagePicker({
@@ -12,18 +12,12 @@ class ProfileImagePicker extends StatelessWidget {
     this.imageBytes,
     required this.onTap,
   });
-
-  // في ملف profile_image.dart:
-
   @override
   Widget build(BuildContext context) {
     ImageProvider? imageProvider;
-
-    // 1. الأولوية للصورة الجديدة المختارة حالياً
     if (imageBytes != null) {
       imageProvider = MemoryImage(imageBytes!);
     }
-    // 2. لو مفيش صورة جديدة، نعرض القديمة من الـ Network
     else if (imageUrl != null && imageUrl!.isNotEmpty) {
       imageProvider = NetworkImage(imageUrl!);
     }
