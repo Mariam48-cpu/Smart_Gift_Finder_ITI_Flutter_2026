@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utlis/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../home/presentation/view/screens/home_screen.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 class LoginScreen extends StatefulWidget {
@@ -39,6 +40,16 @@ class _LoginScreenState extends State<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login Successfully")),
           );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+
+              builder: (_) => const HomeScreen(),
+
+
+            )
+
+          );
 
           final token = await FirebaseAuth.instance.currentUser?.getIdToken();
 
@@ -66,11 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: .center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-
-                // Back Icon Button
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -95,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Titles
                 const Text(
                   'Welcome Back',
                   style: TextStyle(
@@ -113,8 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 36),
-
-                // Email Field Title & Input
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -138,11 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: AppColors.border,
                   ),
                 ),
-
-
                 const SizedBox(height: 20),
-
-                // Password Field Title & Input
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -180,8 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-
-                // Remember Me & Forgot Password Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -225,8 +225,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Sign In Primary Button
                 CustomButton(
                   text: "Sign In",
                   icon: Icons.arrow_forward,
@@ -241,8 +239,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 28),
-
-                // Divider (OR CONTINUE WITH)
                 Row(
                   children: const [
                     Expanded(child: Divider(color: AppColors.borderTransparent)),
@@ -258,7 +254,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Google Sign In Outlined Button
                 OutlinedButton(
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
@@ -292,7 +287,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 32),
 
-                // Don't have an account? Create Account
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
