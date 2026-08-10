@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_gift_finder/core/routes/app_routes.dart';
 import 'package:smart_gift_finder/feature/home/data/datasources/home_data_source_imp.dart';
 import 'package:smart_gift_finder/feature/home/data/repo/home_repo_imp.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_categories_use_case.dart';
@@ -15,7 +16,7 @@ import '../../view_model/home_state.dart';
 import '../widget/category_item.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF3B28CC).withOpacity(0.3),
+                            color: const Color(0xFF3B28CC).withValues(alpha: 0.3),
                             blurRadius: 12,
                             offset: const Offset(0, 6),
                           ),
@@ -116,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                                 Text(
                                   'AI-curated ideas for everyone.',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.85),
+                                    color: Colors.white.withValues(alpha: 0.85),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -176,9 +177,16 @@ class HomeScreen extends StatelessWidget {
                           return CategoryItem(
                             title: category,
                             isSelected: category == state.selectedCategory,
-                            onTap: () => context
-                                .read<HomeCubit>()
-                                .selectCategory(category),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.categories,
+                                arguments: {
+                                  'categorySlug': category,
+                                  'categoryName': category,
+                                },
+                              );
+                            },
                           );
                         },
                       ),
@@ -220,8 +228,16 @@ class HomeScreen extends StatelessWidget {
                                   mainAxisSpacing: 12,
                                 ),
                             itemBuilder: (context, index) {
+                              final product = state.products[index];
                               return ProductItemCard(
-                                product: state.products[index],
+                                product: product,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.productDetails,
+                                    arguments: {'productId': product.id},
+                                  );
+                                },
                                 onAddToCart: () async {
                                   final product = state.products[index];
 
