@@ -7,6 +7,9 @@ import 'package:smart_gift_finder/feature/home/domain/use_case/get_categories_us
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_productbycategory_use_case.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_products_use_case.dart';
 import '../../../../../core/widgets/product_item_card.dart';
+import '../../../../cart/domain/entities/cart_item.dart';
+import '../../../../cart/presentation/cubit/cart_cubit.dart';
+import '../../../../cart/presentation/screens/cart_screen.dart';
 import '../../view_model/home_cubit.dart';
 import '../../view_model/home_state.dart';
 import '../widget/category_item.dart';
@@ -219,13 +222,27 @@ class HomeScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return ProductItemCard(
                                 product: state.products[index],
-                                onAddToCart: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        '${state.products[index].title} added to cart!',
-                                      ),
-                                      duration: const Duration(seconds: 1),
+                                onAddToCart: () async {
+                                  final product = state.products[index];
+
+                                  final cartCubit = context.read<CartCubit>();
+
+                                  await cartCubit.addItem(
+                                    CartItem(
+                                      id: product.id.toString(),
+                                      title: product.title,
+                                      imageUrl: product.imageUrl,
+                                      price: product.price.toDouble(),
+                                      quantity: 1,
+                                    ),
+                                  );
+
+                                  if (!context.mounted) return;
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const CartScreen(),
                                     ),
                                   );
                                 },

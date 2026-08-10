@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utlis/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../home/presentation/view/screens/home_screen.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 class LoginScreen extends StatefulWidget {
@@ -38,6 +39,16 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login Successfully")),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+
+              builder: (_) => const HomeScreen(),
+
+
+            )
+
           );
 
           final token = await FirebaseAuth.instance.currentUser?.getIdToken();

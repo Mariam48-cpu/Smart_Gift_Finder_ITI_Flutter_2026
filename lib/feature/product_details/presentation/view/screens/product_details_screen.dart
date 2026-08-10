@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import '../../../../../../core/routes/app_routes.dart';
+import '../../../../../core/di/service_locator.dart';
+import '../../../../cart/domain/entities/cart_item.dart';
+import '../../../../cart/presentation/cubit/cart_cubit.dart';
+import '../../../../cart/presentation/screens/cart_screen.dart';
 import '../product_details_cubit.dart';
 import 'product_images_slider.dart';
 import 'product_info_section.dart';
@@ -80,7 +84,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _buildBottomBar(context),
+                  _buildBottomBar(context,product),
                 ],
               );
             }
@@ -92,7 +96,7 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomBar(BuildContext context) {
+  Widget _buildBottomBar(BuildContext context, dynamic product) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -109,8 +113,33 @@ class ProductDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: OutlinedButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.cart);
+              onPressed: () async {
+                final cartCubit = context.read<CartCubit>();
+                await cartCubit.addItem(
+                  CartItem(
+                    id: product['id'].toString(),
+                    title: product['title'] ?? '',
+                    imageUrl: (product['images'] != null && (product['images'] as List).isNotEmpty)
+                        ? product['images'][0]
+                        : '',
+                    price: (product['price'] ?? 0).toDouble(),
+                    quantity: 1,
+                  ),
+                );
+
+                cartCubit.loadCart();
+
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider.value(
+                        value: cartCubit,
+                        child: const CartScreen(),
+                      ),
+                    ),
+                  );
+                }
               },
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -118,8 +147,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
-              icon:
-                  const Icon(Icons.add_shopping_cart, color: Color(0xFFC2185B)),
+              icon: const Icon(Icons.add_shopping_cart, color: Color(0xFFC2185B)),
               label: const Text(
                 'Add to Cart',
                 style: TextStyle(
@@ -142,8 +170,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               child: const Text(
                 'Buy Now',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ),
