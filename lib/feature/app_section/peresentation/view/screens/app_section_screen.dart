@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/core/constants/app_assets.dart';
-import 'package:smart_gift_finder/feature/account/peresentation/view/screens/account_screen.dart';
+import 'package:smart_gift_finder/feature/account/presentation/screens/account_screen.dart';
 import 'package:smart_gift_finder/feature/ai_finder/peresentation/view/screens/ai_finder_screen.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view/widgets/nav_icon.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view_model/app_section_cubit.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view_model/app_section_states.dart';
-import 'package:smart_gift_finder/feature/cart/peresentation/view/screens/cart_screen.dart';
-import 'package:smart_gift_finder/feature/home/peresentation/view/screens/home_screen.dart';
+import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dart';
+import 'package:smart_gift_finder/feature/cart/presentation/screens/cart_screen.dart';
+import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
+import 'package:smart_gift_finder/feature/home/presentation/view/screens/home_screen.dart';
 import 'package:smart_gift_finder/feature/wishlist/peresentation/view/screens/wish_list.dart';
 
 class AppSectionScreen extends StatefulWidget {
@@ -16,6 +18,16 @@ class AppSectionScreen extends StatefulWidget {
   State<AppSectionScreen> createState() => _AppSectionScreenState();
 }
 class _AppSectionScreenState extends State<AppSectionScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<CartCubit>().loadCart();
+      context.read<AccountCubit>().getUserData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

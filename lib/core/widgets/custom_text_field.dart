@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.textInputAction,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -23,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextInputAction? textInputAction;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       textInputAction: textInputAction,
+      onChanged: onChanged,
       style: const TextStyle(
         fontSize: 14,
         color: AppColors.textDark,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import '../../../../../../core/routes/app_routes.dart';
-import '../../../../../core/di/service_locator.dart';
 import '../../../../cart/domain/entities/cart_item.dart';
 import '../../../../cart/presentation/cubit/cart_cubit.dart';
 import '../../../../cart/presentation/screens/cart_screen.dart';
