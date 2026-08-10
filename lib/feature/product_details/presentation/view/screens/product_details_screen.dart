@@ -83,7 +83,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _buildBottomBar(context,product),
+                  _buildBottomBar(context, product),
                 ],
               );
             }
@@ -118,7 +118,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   CartItem(
                     id: product['id'].toString(),
                     title: product['title'] ?? '',
-                    imageUrl: (product['images'] != null && (product['images'] as List).isNotEmpty)
+                    imageUrl: (product['images'] != null &&
+                            (product['images'] as List).isNotEmpty)
                         ? product['images'][0]
                         : '',
                     price: (product['price'] ?? 0).toDouble(),
@@ -128,17 +129,17 @@ class ProductDetailsScreen extends StatelessWidget {
 
                 cartCubit.loadCart();
 
-                if (context.mounted) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider.value(
-                        value: cartCubit,
-                        child: const CartScreen(),
-                      ),
-                    ),
-                  );
-                }
+                // if (context.mounted) {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => BlocProvider.value(
+                //         value: cartCubit,
+                //         child: const CartScreen(),
+                //       ),
+                //     ),
+                //   );
+                // }
               },
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -146,7 +147,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
-              icon: const Icon(Icons.add_shopping_cart, color: Color(0xFFC2185B)),
+              icon:
+                  const Icon(Icons.add_shopping_cart, color: Color(0xFFC2185B)),
               label: const Text(
                 'Add to Cart',
                 style: TextStyle(
@@ -169,7 +171,8 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
               child: const Text(
                 'Buy Now',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ),
