@@ -11,6 +11,7 @@ class ProductItemCard extends StatefulWidget {
     required this.product,
     this.onTap,
     this.onAddToCart,
+  
   }) : super(key: key);
 
   @override
