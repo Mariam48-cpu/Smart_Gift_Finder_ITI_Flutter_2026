@@ -14,7 +14,13 @@ import 'package:smart_gift_finder/feature/auth/domain/usecases/login_usecase.dar
 import 'package:smart_gift_finder/feature/auth/domain/usecases/register_usecase.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/screens/login_screen.dart';
+import 'package:smart_gift_finder/feature/cart/domain/usecases/add_to_cart.dart';
+import 'package:smart_gift_finder/feature/cart/domain/usecases/get_cart.dart';
+import 'package:smart_gift_finder/feature/cart/domain/usecases/remove_from_cart.dart';
+import 'package:smart_gift_finder/feature/cart/domain/usecases/update_cart_quantity.dart';
 import 'package:smart_gift_finder/firebase_options.dart';
+
+import 'feature/cart/presentation/cubit/cart_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +81,10 @@ class MyApp extends StatelessWidget {
             accountRepository,
           ),
         ),
+        BlocProvider<CartCubit>(
+          create: (context) => serviceLocator<CartCubit>()..loadCart(),
+        ),
+
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

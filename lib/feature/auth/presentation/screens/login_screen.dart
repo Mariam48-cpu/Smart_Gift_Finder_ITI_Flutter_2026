@@ -10,6 +10,7 @@ import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../cart/presentation/cubit/cart_cubit.dart';
 import '../../../cart/presentation/screens/cart_screen.dart';
+import '../../../home/presentation/view/screens/home_screen.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 class LoginScreen extends StatefulWidget {
@@ -45,10 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => BlocProvider(
-                create: (_) => serviceLocator<CartCubit>()..loadCart(),
-                child: const CartScreen(),
-              ),
+              builder: (_) => const HomeScreen(),
+
             ),
           );
 
