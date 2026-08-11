@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import '../../../../../../core/routes/app_routes.dart';
 import '../../../../cart/domain/entities/cart_item.dart';
 import '../../../../cart/presentation/cubit/cart_cubit.dart';
+import '../../../../wishlist/presentation/screens/widgets/favorite_button.dart';
 import '../product_details_cubit.dart';
 import 'product_images_slider.dart';
 import 'product_info_section.dart';
@@ -37,6 +39,31 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           centerTitle: true,
           actions: [
+            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+              builder: (context, state) {
+                if (state is! ProductDetailsSuccess) {
+                  return const SizedBox.shrink();
+                }
+
+                final product = state.product;
+                final userId =
+                    FirebaseAuth.instance.currentUser?.uid ?? 'test_user_id';
+
+                return FavoriteButton(
+                  productId: product['id'].toString(),
+                  userId: userId,
+                  productData: {
+                    'name': product['title'] ?? '',
+                    'price': product['price'] ?? 0,
+                    'imageUrl': (product['images'] != null &&
+                            (product['images'] as List).isNotEmpty)
+                        ? product['images'][0]
+                        : '',
+                    'rating': product['rating'] ?? 0,
+                  },
+                );
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.share_outlined, color: Colors.black),
               onPressed: () {

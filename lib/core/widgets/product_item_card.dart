@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../model/item/product_item_entity.dart';
+import '../../feature/wishlist/presentation/screens/widgets/favorite_button.dart';
 
 class ProductItemCard extends StatefulWidget {
   final ProductItemEntity product;
@@ -18,7 +20,8 @@ class ProductItemCard extends StatefulWidget {
 }
 
 class _ProductItemCardState extends State<ProductItemCard> {
-  bool isFavorite = false;
+  String get _userId =>
+      FirebaseAuth.instance.currentUser?.uid ?? 'test_user_id';
 
   @override
   Widget build(BuildContext context) {
@@ -63,21 +66,15 @@ class _ProductItemCardState extends State<ProductItemCard> {
                   Positioned(
                     top: 8,
                     right: 8,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
+                    child: FavoriteButton(
+                      productId: widget.product.id.toString(),
+                      userId: _userId,
+                      productData: {
+                        'name': widget.product.title,
+                        'price': widget.product.price,
+                        'imageUrl': widget.product.imageUrl,
+                        'rating': widget.product.rating,
                       },
-                      child: CircleAvatar(
-                        radius: 14,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          size: 16,
-                          color: isFavorite ? Colors.red : Colors.grey,
-                        ),
-                      ),
                     ),
                   ),
                 ],

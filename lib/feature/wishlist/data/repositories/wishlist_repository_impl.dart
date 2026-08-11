@@ -13,10 +13,12 @@ class WishlistRepositoryImpl implements WishlistRepository {
   Future<void> toggleFavorite({
     required String userId,
     required String productId,
+    Map<String, dynamic>? productData,
   }) async {
     return await _remoteDataSource.toggleFavorite(
       userId: userId,
       productId: productId,
+      productData: productData,
     );
   }
 
@@ -26,8 +28,13 @@ class WishlistRepositoryImpl implements WishlistRepository {
   }
 
   @override
-  Future<List<WishlistItemEntity>> getWishlistItems(
-      List<String> productIds) async {
-    return await _remoteDataSource.getWishlistItems(productIds);
+  Future<List<WishlistItemEntity>> getWishlistItems({
+    required String userId,
+    required List<String> productIds,
+  }) async {
+    return await _remoteDataSource.getWishlistItems(
+      userId: userId,
+      productIds: productIds,
+    );
   }
 }
