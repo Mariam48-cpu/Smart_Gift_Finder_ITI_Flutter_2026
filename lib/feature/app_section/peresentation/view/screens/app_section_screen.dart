@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/core/constants/app_assets.dart';
 import 'package:smart_gift_finder/feature/account/presentation/screens/account_screen.dart';
-import 'package:smart_gift_finder/feature/ai_finder/peresentation/view/screens/ai_finder_screen.dart';
+import 'package:smart_gift_finder/feature/ai_finder/presentation/view/screens/ai_finder_screen.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view/widgets/nav_icon.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view_model/app_section_cubit.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view_model/app_section_states.dart';

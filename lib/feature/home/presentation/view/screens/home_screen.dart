@@ -12,7 +12,6 @@ import 'package:smart_gift_finder/feature/home/domain/use_case/get_products_use_
 import '../../../../../core/widgets/product_item_card.dart';
 import '../../../../cart/domain/entities/cart_item.dart';
 import '../../../../cart/presentation/cubit/cart_cubit.dart';
-import '../../../../cart/presentation/screens/cart_screen.dart';
 import '../../view_model/home_cubit.dart';
 import '../../view_model/home_state.dart';
 import '../widget/category_item.dart';

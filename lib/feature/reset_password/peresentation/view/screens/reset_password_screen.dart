@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/core/di/service_locator.dart';
-import 'package:smart_gift_finder/core/routes/app_routes.dart';
 import 'package:smart_gift_finder/feature/reset_password/peresentation/view_model/reset_cubit.dart';
 import 'package:smart_gift_finder/feature/reset_password/peresentation/view_model/reset_states.dart';
 

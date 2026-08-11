@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import '../../../../../../core/routes/app_routes.dart';
 import '../../../../cart/domain/entities/cart_item.dart';
 import '../../../../cart/presentation/cubit/cart_cubit.dart';
-import '../../../../cart/presentation/screens/cart_screen.dart';
 import '../product_details_cubit.dart';
 import 'product_images_slider.dart';
 import 'product_info_section.dart';

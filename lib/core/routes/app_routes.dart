@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../feature/account/presentation/screens/account_screen.dart';
 import '../../feature/account/presentation/screens/edit_profile_screen.dart';
-import '../../feature/ai_finder/peresentation/view/screens/ai_finder_screen.dart';
+import '../../feature/ai_finder/presentation/view/screens/ai_finder_screen.dart';
 import '../../feature/app_section/peresentation/view/screens/app_section_screen.dart';
 import '../../feature/auth/presentation/screens/login_screen.dart';
 import '../../feature/auth/presentation/screens/register_screen.dart';

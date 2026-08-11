@@ -62,8 +62,8 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
       final docId = doc.id.trim();
       final data = doc.data();
 
-      final String? fieldId = data['id']?.toString()?.trim();
-      final String? fieldProductId = data['productId']?.toString()?.trim();
+      final String? fieldId = data['id']?.toString().trim();
+      final String? fieldProductId = data['productId']?.toString().trim();
 
       bool matches = targetIdsSet.contains(docId) ||
           (fieldId != null && targetIdsSet.contains(fieldId)) ||
