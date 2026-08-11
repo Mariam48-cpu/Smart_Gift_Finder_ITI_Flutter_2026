@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
-import 'package:smart_gift_finder/feature/account/presentation/screens/account_screen.dart';
+import 'package:smart_gift_finder/core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utlis/validators.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -10,7 +9,7 @@ import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
   @override
   State<RegisterScreen> createState() => _RegisterScreenUIState();
 }
@@ -42,11 +41,11 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Account Created Successfully!")),
           );
-          context.read<AccountCubit>().getUserData();
 
-          Navigator.pushReplacement(
+          Navigator.pushNamedAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => AccountScreen()),
+            Routes.appSection,
+            (route) => false,
           );
         }
         if (state is AuthError) {
@@ -86,9 +85,7 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                             color: Colors.white,
                             size: 18,
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: () => Navigator.pop(context),
                         ),
                       ),
                     ),
@@ -231,7 +228,7 @@ class _RegisterScreenUIState extends State<RegisterScreen> {
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryBgLight.withOpacity(0.5),
+                        color: AppColors.primaryBgLight.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: TextButton(
