@@ -16,17 +16,11 @@ class WishlistCubit extends Cubit<WishlistState> {
   WishlistCubit(this._repository) : super(WishlistInitial());
 
   void initFavoritesStream(String userId) {
-    print("========================================");
-    print(">>> USER ID PASSED TO WISHLIST: '$userId'");
-    print("========================================");
-
     emit(WishlistLoading());
     _favoritesSubscription?.cancel();
 
     _favoritesSubscription = _repository.getFavoriteProductIds(userId).listen(
       (favoriteIds) async {
-        print(">>> FAVORITE IDs FROM FIREBASE: $favoriteIds");
-
         final stringIds = favoriteIds.map((id) => id.toString()).toList();
         _currentFavoriteIds = stringIds.toSet();
 
@@ -34,10 +28,8 @@ class WishlistCubit extends Cubit<WishlistState> {
           if (_currentFavoriteIds.isNotEmpty) {
             _currentItems = await _repository
                 .getWishlistItems(_currentFavoriteIds.toList());
-            print(">>> FETCHED ITEMS COUNT: ${_currentItems.length}");
           } else {
             _currentItems = [];
-            print(">>> FAVORITE IDs LIST IS EMPTY!");
           }
 
           emit(WishlistLoaded(
@@ -45,12 +37,10 @@ class WishlistCubit extends Cubit<WishlistState> {
             items: List.from(_currentItems),
           ));
         } catch (e) {
-          print(">>> ERROR FETCHING WISHLIST ITEMS: $e");
           emit(WishlistError(e.toString()));
         }
       },
       onError: (error) {
-        print(">>> STREAM ERROR: $error");
         emit(WishlistError(error.toString()));
       },
     );

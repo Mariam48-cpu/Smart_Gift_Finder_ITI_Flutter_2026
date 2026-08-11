@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../feature/product_details/presentation/view/screens/product_details_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:smart_gift_finder/feature/auth/presentation/screens/login_screen.dart';
+import 'package:smart_gift_finder/feature/product_details/presentation/view/screens/product_details_screen.dart';
+import 'package:smart_gift_finder/feature/wishlist/presentation/screens/wishlist_screen.dart'
+    as wish;
 
 abstract class Routes {
   static const String splash = '/';
@@ -30,75 +35,91 @@ abstract class Routes {
 }
 
 abstract class AppRouter {
-  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+  static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Splash Screen')),
+            body: Center(
+              child: Text('Splash Screen'),
+            ),
           ),
         );
 
       case Routes.onboarding:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Onboarding Screen')),
+            body: Center(
+              child: Text('Onboarding Screen'),
+            ),
           ),
         );
 
       case Routes.login:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('Login Screen')),
-          ),
+          builder: (_) => const LoginScreen(),
         );
 
       case Routes.register:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Register Screen')),
+            body: Center(
+              child: Text('Register Screen'),
+            ),
           ),
         );
 
       case Routes.forgotPassword:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Forgot Password Screen')),
+            body: Center(
+              child: Text('Forgot Password Screen'),
+            ),
           ),
         );
 
       case Routes.home:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Home Screen')),
+            body: Center(
+              child: Text('Home Screen'),
+            ),
           ),
         );
 
       case Routes.categories:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Category & Filters Screen')),
+            body: Center(
+              child: Text('Category & Filters Screen'),
+            ),
           ),
         );
 
       case Routes.search:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Search Screen')),
+            body: Center(
+              child: Text('Search Screen'),
+            ),
           ),
         );
 
       case Routes.aiGiftFinder:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('AI Gift Finder Form Screen')),
+            body: Center(
+              child: Text('AI Gift Finder Form Screen'),
+            ),
           ),
         );
 
       case Routes.aiRecommendations:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('AI Recommendations Results Screen')),
+            body: Center(
+              child: Text('AI Recommendations Results Screen'),
+            ),
           ),
         );
 
@@ -110,70 +131,92 @@ abstract class AppRouter {
       case Routes.cart:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Your Cart Screen')),
+            body: Center(
+              child: Text('Your Cart Screen'),
+            ),
           ),
         );
 
       case Routes.wishlist:
+        final userId = settings.arguments as String? ??
+            FirebaseAuth.instance.currentUser?.uid ??
+            'test_user_id';
+
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('Wishlist Screen')),
+          builder: (context) => wish.WishlistScreen(
+            userId: userId,
           ),
         );
 
       case Routes.checkout:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Checkout Screen')),
+            body: Center(
+              child: Text('Checkout Screen'),
+            ),
           ),
         );
 
       case Routes.orders:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Orders Screen')),
+            body: Center(
+              child: Text('Orders Screen'),
+            ),
           ),
         );
 
       case Routes.orderDetails:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Order Details Screen')),
+            body: Center(
+              child: Text('Order Details Screen'),
+            ),
           ),
         );
 
       case Routes.profile:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Account / Profile Screen')),
+            body: Center(
+              child: Text('Account / Profile Screen'),
+            ),
           ),
         );
 
       case Routes.editProfile:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Edit Profile Screen')),
+            body: Center(
+              child: Text('Edit Profile Screen'),
+            ),
           ),
         );
 
       case Routes.settings:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Settings Screen')),
+            body: Center(
+              child: Text('Settings Screen'),
+            ),
           ),
         );
 
       case Routes.notificationSettings:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Notification Settings Screen')),
+            body: Center(
+              child: Text('Notification Settings Screen'),
+            ),
           ),
         );
 
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
-            body: Center(child: Text('No Route Defined')),
+            body: Center(
+              child: Text('No Route Defined'),
+            ),
           ),
         );
     }
