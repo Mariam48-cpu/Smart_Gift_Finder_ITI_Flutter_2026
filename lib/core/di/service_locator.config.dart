@@ -31,6 +31,22 @@ import 'package:smart_gift_finder/feature/ai_finder/domain/repositories/ai_gift_
     as _i545;
 import 'package:smart_gift_finder/feature/ai_finder/domain/usecases/get_ai_gift_recommendations_usecase.dart'
     as _i499;
+import 'package:smart_gift_finder/feature/cart/data/datasource/cart_remote_datasource.dart'
+    as _i758;
+import 'package:smart_gift_finder/feature/cart/data/repository/cart_repository_impl.dart'
+    as _i657;
+import 'package:smart_gift_finder/feature/cart/domain/repository/cart_repository.dart'
+    as _i746;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/add_to_cart.dart'
+    as _i110;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/get_cart.dart'
+    as _i559;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/remove_from_cart.dart'
+    as _i403;
+import 'package:smart_gift_finder/feature/cart/domain/usecases/update_cart_quantity.dart'
+    as _i816;
+import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dart'
+    as _i977;
 import 'package:smart_gift_finder/feature/reset_password/data/repo/reset_data_source_imp.dart'
     as _i956;
 import 'package:smart_gift_finder/feature/reset_password/data/repo/reset_repo_imp.dart'
@@ -72,33 +88,68 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i59.FirebaseAuth>(() => injectableModule.firebaseAuth);
     gh.lazySingleton<_i974.FirebaseFirestore>(() => injectableModule.firestore);
     gh.factory<_i14.AccountCubit>(
-        () => _i14.AccountCubit(gh<_i738.AccountRepositoryInterface>()));
+      () => _i14.AccountCubit(gh<_i738.AccountRepositoryInterface>()),
+    );
+    gh.factory<_i758.CartRemoteDataSource>(
+      () => _i758.CartRemoteDataSource(
+        firestore: gh<_i974.FirebaseFirestore>(),
+        auth: gh<_i59.FirebaseAuth>(),
+      ),
+    );
+    gh.factory<_i746.CartRepository>(
+      () => _i657.CartRepositoryImpl(gh<_i758.CartRemoteDataSource>()),
+    );
+    gh.factory<_i110.AddToCart>(
+      () => _i110.AddToCart(gh<_i746.CartRepository>()),
+    );
+    gh.factory<_i559.GetCart>(() => _i559.GetCart(gh<_i746.CartRepository>()));
+    gh.factory<_i403.RemoveFromCart>(
+      () => _i403.RemoveFromCart(gh<_i746.CartRepository>()),
+    );
+    gh.factory<_i816.UpdateCartQuantity>(
+      () => _i816.UpdateCartQuantity(gh<_i746.CartRepository>()),
+    );
     gh.factory<_i22.SearchDataSourceInterface>(
-        () => _i683.SearchDataSourceImp(gh<_i361.Dio>()));
-    gh.factory<_i545.AIGiftRepository>(() =>
-        _i680.AIGiftRepositoryImpl(dataSource: gh<_i226.AIGiftDataSource>()));
+      () => _i683.SearchDataSourceImp(gh<_i361.Dio>()),
+    );
+    gh.factory<_i545.AIGiftRepository>(
+      () => _i680.AIGiftRepositoryImpl(dataSource: gh<_i226.AIGiftDataSource>()),
+    );
     gh.factory<_i563.SearchRepoInterface>(
-        () => _i916.SearchRepoImp(gh<_i22.SearchDataSourceInterface>()));
-    gh.factory<_i499.GetAIGiftRecommendationsUseCase>(() =>
-        _i499.GetAIGiftRecommendationsUseCase(
-            repository: gh<_i545.AIGiftRepository>()));
+      () => _i916.SearchRepoImp(gh<_i22.SearchDataSourceInterface>()),
+    );
+    gh.factory<_i499.GetAIGiftRecommendationsUseCase>(
+      () => _i499.GetAIGiftRecommendationsUseCase(
+        repository: gh<_i545.AIGiftRepository>(),
+      ),
+    );
     gh.factory<_i483.AccountDataSourceInterface>(
-        () => _i304.AccountRemoteDataSourceImpl(
-              gh<_i974.FirebaseFirestore>(),
-              gh<_i59.FirebaseAuth>(),
-            ));
+      () => _i304.AccountRemoteDataSourceImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
+    );
     gh.factory<_i301.ResetDataSourceInterface>(
-        () => _i956.ResetDataSourceImp(gh<_i59.FirebaseAuth>()));
+      () => _i956.ResetDataSourceImp(gh<_i59.FirebaseAuth>()));
     gh.factory<_i408.ResetRepoInterface>(
-        () => _i1022.ResetRepoImp(gh<_i301.ResetDataSourceInterface>()));
+      () => _i1022.ResetRepoImp(gh<_i301.ResetDataSourceInterface>()));
     gh.factory<_i439.ResetPasswordUseCase>(
-        () => _i439.ResetPasswordUseCase(gh<_i408.ResetRepoInterface>()));
+      () => _i439.ResetPasswordUseCase(gh<_i408.ResetRepoInterface>()));
     gh.factory<_i825.SearchProductsUseCase>(
-        () => _i825.SearchProductsUseCase(gh<_i563.SearchRepoInterface>()));
+      () => _i825.SearchProductsUseCase(gh<_i563.SearchRepoInterface>()));
     gh.factory<_i912.SearchCubit>(
-        () => _i912.SearchCubit(gh<_i825.SearchProductsUseCase>()));
+      () => _i912.SearchCubit(gh<_i825.SearchProductsUseCase>()));
     gh.factory<_i879.ResetCubit>(
-        () => _i879.ResetCubit(gh<_i439.ResetPasswordUseCase>()));
+      () => _i879.ResetCubit(gh<_i439.ResetPasswordUseCase>()),
+    );
+    gh.factory<_i977.CartCubit>(
+      () => _i977.CartCubit(
+        getCart: gh<_i559.GetCart>(),
+        addToCart: gh<_i110.AddToCart>(),
+        updateCartQuantity: gh<_i816.UpdateCartQuantity>(),
+        removeFromCart: gh<_i403.RemoveFromCart>(),
+      ),
+    );
     return this;
   }
 }
