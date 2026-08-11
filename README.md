@@ -155,7 +155,7 @@ PEXELS_API_KEY=your_pexels_api_key_here
 
 | Member | Role | Responsibilities |
 | --- | --- | --- |
-| **Mahmoud Salah Abdelazim Ahmed (AlBarmajy)** | Full-stack Integration & System Architecture | Full-stack Integration, App Routing, Search Feature, Web Compatibility & System Architecture |
+| **Mahmoud** | Full-stack Integration & System Architecture | Full-stack Integration, App Routing, Search Feature, Web Compatibility & System Architecture |
 | **Mariam** | Team Leader | Project Setup, Architecture Design, Core Configurations & Reviews |
 | **Alaa** | Onboarding & Authentication | Onboarding Flow, Authentication & UI Setup |
 | **Aya** | Shopping Flow | Cart Management, Product Details & Shopping Flow |
