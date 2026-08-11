@@ -1,7 +1,7 @@
 abstract class AppAssets {
   static const String _imagesPath = 'assets/image';
   static const String _iconPath = 'assets/icon';
-  static const String _iconsPath = 'assets/icon';
+  static const String _iconsPath = 'assets/icons';
 
   // --- Images ---
   static const String splashLogo = '$_imagesPath/splash_screen_logo.png';

@@ -71,6 +71,14 @@ import 'package:smart_gift_finder/feature/search/domain/use_case/search_use_case
     as _i825;
 import 'package:smart_gift_finder/feature/search/peresentation/view_model/search_cubit.dart'
     as _i912;
+import 'package:smart_gift_finder/feature/wishlist/data/datasources/wishlist_remote_data_source.dart'
+    as _i635;
+import 'package:smart_gift_finder/feature/wishlist/data/repositories/wishlist_repository_impl.dart'
+    as _i896;
+import 'package:smart_gift_finder/feature/wishlist/domain/repositories/wishlist_repository.dart'
+    as _i193;
+import 'package:smart_gift_finder/feature/wishlist/presentation/cubit/wishlist_cubit.dart'
+    as _i1024;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -149,6 +157,15 @@ extension GetItInjectableX on _i174.GetIt {
         updateCartQuantity: gh<_i816.UpdateCartQuantity>(),
         removeFromCart: gh<_i403.RemoveFromCart>(),
       ),
+    );
+    gh.lazySingleton<_i635.WishlistRemoteDataSource>(
+      () => _i635.WishlistRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
+    gh.lazySingleton<_i193.WishlistRepository>(
+      () => _i896.WishlistRepositoryImpl(gh<_i635.WishlistRemoteDataSource>()),
+    );
+    gh.factory<_i1024.WishlistCubit>(
+      () => _i1024.WishlistCubit(gh<_i193.WishlistRepository>()),
     );
     return this;
   }

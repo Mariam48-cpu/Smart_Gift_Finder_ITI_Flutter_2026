@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../feature/account/presentation/screens/account_screen.dart';
@@ -15,7 +16,7 @@ import '../../feature/reset_password/new_password_screen.dart';
 import '../../feature/reset_password/peresentation/view/screens/reset_password_screen.dart';
 import '../../feature/search/peresentation/view/screens/search_screen.dart';
 import '../../feature/splash/splash_view.dart';
-import '../../feature/wishlist/peresentation/view/screens/wish_list.dart';
+import '../../feature/wishlist/presentation/screens/wishlist_screen.dart';
 
 abstract class Routes {
   static const String splash = '/';
@@ -49,7 +50,7 @@ abstract class Routes {
 }
 
 abstract class AppRouter {
-  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+  static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
@@ -111,7 +112,13 @@ abstract class AppRouter {
         return MaterialPageRoute(builder: (_) => const CartScreen());
 
       case Routes.wishlist:
-        return MaterialPageRoute(builder: (_) => const WishListScreen());
+        final userId = settings.arguments as String? ??
+            FirebaseAuth.instance.currentUser?.uid ??
+            'test_user_id';
+
+        return MaterialPageRoute(
+          builder: (context) => WishlistScreen(userId: userId),
+        );
 
       case Routes.checkout:
         return _placeholder('Checkout Screen');

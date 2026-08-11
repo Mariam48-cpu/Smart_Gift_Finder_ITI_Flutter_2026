@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/core/constants/app_assets.dart';
@@ -10,7 +11,7 @@ import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dar
 import 'package:smart_gift_finder/feature/cart/presentation/screens/cart_screen.dart';
 import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
 import 'package:smart_gift_finder/feature/home/presentation/view/screens/home_screen.dart';
-import 'package:smart_gift_finder/feature/wishlist/peresentation/view/screens/wish_list.dart';
+import 'package:smart_gift_finder/feature/wishlist/presentation/screens/wishlist_screen.dart';
 
 class AppSectionScreen extends StatefulWidget {
   const AppSectionScreen({super.key});
@@ -31,6 +32,7 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? 'test_user_id';
     return BlocProvider(
       create: (context) => AppSectionCubit(),
       child: BlocBuilder<AppSectionCubit, AppSectionState>(
@@ -39,12 +41,12 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
           return Scaffold(
             body: IndexedStack(
               index: cubit.currentIndex,
-              children: const [
-                HomeScreen(),
-                AIFinderScreen(),
-                CartScreen(),
-                WishListScreen(),
-                AccountScreen(),
+              children: [
+                const HomeScreen(),
+                const AIFinderScreen(),
+                const CartScreen(),
+                WishlistScreen(userId: userId),
+                const AccountScreen(),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
