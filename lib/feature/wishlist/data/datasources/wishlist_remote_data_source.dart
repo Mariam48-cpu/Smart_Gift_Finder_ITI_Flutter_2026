@@ -3,10 +3,16 @@ import 'package:injectable/injectable.dart';
 import '../models/wishlist_item_model.dart';
 
 abstract class WishlistRemoteDataSource {
-  Future<void> toggleFavorite(
-      {required String userId, required String productId});
+  Future<void> toggleFavorite({
+    required String userId,
+    required String productId,
+    Map<String, dynamic>? productData,
+  });
   Stream<List<String>> getFavoriteProductIds(String userId);
-  Future<List<WishlistItemModel>> getWishlistItems(List<String> productIds);
+  Future<List<WishlistItemModel>> getWishlistItems({
+    required String userId,
+    required List<String> productIds,
+  });
 }
 
 @LazySingleton(as: WishlistRemoteDataSource)
@@ -15,14 +21,20 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
 
   WishlistRemoteDataSourceImpl(this._firestore);
 
-  @override
-  Future<void> toggleFavorite(
-      {required String userId, required String productId}) async {
-    final docRef = _firestore
+  CollectionReference<Map<String, dynamic>> _favoritesRef(String userId) {
+    return _firestore
         .collection('users')
         .doc(userId)
-        .collection('favorites')
-        .doc(productId);
+        .collection('favorites');
+  }
+
+  @override
+  Future<void> toggleFavorite({
+    required String userId,
+    required String productId,
+    Map<String, dynamic>? productData,
+  }) async {
+    final docRef = _favoritesRef(userId).doc(productId);
 
     final doc = await docRef.get();
 
@@ -30,6 +42,11 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
       await docRef.delete();
     } else {
       await docRef.set({
+        'productId': productId,
+        'name': productData?['name'],
+        'price': productData?['price'],
+        'imageUrl': productData?['imageUrl'],
+        'rating': productData?['rating'],
         'addedAt': FieldValue.serverTimestamp(),
       });
     }
@@ -37,43 +54,26 @@ class WishlistRemoteDataSourceImpl implements WishlistRemoteDataSource {
 
   @override
   Stream<List<String>> getFavoriteProductIds(String userId) {
-    return _firestore
-        .collection('users')
-        .doc(userId)
-        .collection('favorites')
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => doc.id).toList());
+    return _favoritesRef(userId).snapshots().map(
+        (snapshot) => snapshot.docs.map((doc) => doc.id).toList());
   }
 
   @override
-  Future<List<WishlistItemModel>> getWishlistItems(
-      List<String> productIds) async {
+  Future<List<WishlistItemModel>> getWishlistItems({
+    required String userId,
+    required List<String> productIds,
+  }) async {
     if (productIds.isEmpty) return [];
 
-    final allProductsSnap = await _firestore.collection('products').get();
+    final targetIdsSet = productIds.toSet();
 
-    if (allProductsSnap.docs.isEmpty) return [];
+    final favoritesSnap = await _favoritesRef(userId).get();
 
-    final targetIdsSet = productIds.map((id) => id.trim()).toSet();
+    if (favoritesSnap.docs.isEmpty) return [];
 
-    List<WishlistItemModel> items = [];
-
-    for (var doc in allProductsSnap.docs) {
-      final docId = doc.id.trim();
-      final data = doc.data();
-
-      final String? fieldId = data['id']?.toString().trim();
-      final String? fieldProductId = data['productId']?.toString().trim();
-
-      bool matches = targetIdsSet.contains(docId) ||
-          (fieldId != null && targetIdsSet.contains(fieldId)) ||
-          (fieldProductId != null && targetIdsSet.contains(fieldProductId));
-
-      if (matches) {
-        items.add(WishlistItemModel.fromJson(data, doc.id));
-      }
-    }
-
-    return items;
+    return favoritesSnap.docs
+        .where((doc) => targetIdsSet.contains(doc.id))
+        .map((doc) => WishlistItemModel.fromJson(doc.data(), doc.id))
+        .toList();
   }
 }

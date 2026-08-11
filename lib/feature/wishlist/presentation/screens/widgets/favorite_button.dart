@@ -7,11 +7,13 @@ import '../../cubit/wishlist_state.dart';
 class FavoriteButton extends StatelessWidget {
   final String productId;
   final String userId;
+  final Map<String, dynamic>? productData;
 
   const FavoriteButton({
     super.key,
     required this.productId,
     required this.userId,
+    this.productData,
   });
 
   @override
@@ -34,6 +36,7 @@ class FavoriteButton extends StatelessWidget {
               context.read<WishlistCubit>().toggleFavorite(
                     userId: userId,
                     productId: productId,
+                    productData: productData,
                   );
             },
           ),

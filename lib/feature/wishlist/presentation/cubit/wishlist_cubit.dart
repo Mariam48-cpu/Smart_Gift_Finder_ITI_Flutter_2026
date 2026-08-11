@@ -26,8 +26,10 @@ class WishlistCubit extends Cubit<WishlistState> {
 
         try {
           if (_currentFavoriteIds.isNotEmpty) {
-            _currentItems = await _repository
-                .getWishlistItems(_currentFavoriteIds.toList());
+            _currentItems = await _repository.getWishlistItems(
+              userId: userId,
+              productIds: _currentFavoriteIds.toList(),
+            );
           } else {
             _currentItems = [];
           }
@@ -53,9 +55,14 @@ class WishlistCubit extends Cubit<WishlistState> {
   Future<void> toggleFavorite({
     required String userId,
     required String productId,
+    Map<String, dynamic>? productData,
   }) async {
     try {
-      await _repository.toggleFavorite(userId: userId, productId: productId);
+      await _repository.toggleFavorite(
+        userId: userId,
+        productId: productId,
+        productData: productData,
+      );
     } catch (e) {
       initFavoritesStream(userId);
     }

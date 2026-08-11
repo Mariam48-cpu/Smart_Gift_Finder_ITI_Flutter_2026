@@ -8,6 +8,7 @@ import 'package:smart_gift_finder/feature/app_section/peresentation/view/widgets
 import 'package:smart_gift_finder/feature/app_section/peresentation/view_model/app_section_cubit.dart';
 import 'package:smart_gift_finder/feature/app_section/peresentation/view_model/app_section_states.dart';
 import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dart';
+import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_state.dart';
 import 'package:smart_gift_finder/feature/cart/presentation/screens/cart_screen.dart';
 import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
 import 'package:smart_gift_finder/feature/home/presentation/view/screens/home_screen.dart';
@@ -71,10 +72,30 @@ class _AppSectionScreenState extends State<AppSectionScreen> {
                   label: "AI Finder",
                 ),
                 BottomNavigationBarItem(
-                  icon: NavIcon(
-                    path: AppAssets.cartIcon,
-                    index: 2,
-                    currentIndex: cubit.currentIndex,
+                  icon: BlocBuilder<CartCubit, CartState>(
+                    builder: (context, state) {
+                      final count = state is CartSuccess
+                          ? state.items
+                              .fold<int>(0, (sum, item) => sum + item.quantity)
+                          : 0;
+
+                      return Badge(
+                        isLabelVisible: count > 0,
+                        backgroundColor: Colors.red,
+                        label: Text(
+                          '$count',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                          ),
+                        ),
+                        child: NavIcon(
+                          path: AppAssets.cartIcon,
+                          index: 2,
+                          currentIndex: cubit.currentIndex,
+                        ),
+                      );
+                    },
                   ),
                   label: "Cart",
                 ),

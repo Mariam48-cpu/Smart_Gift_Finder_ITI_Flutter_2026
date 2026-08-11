@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_gift_finder/core/di/service_locator.dart';
 import 'package:smart_gift_finder/core/routes/app_routes.dart';
 import 'package:smart_gift_finder/firebase_options.dart';
@@ -20,6 +21,13 @@ import 'package:smart_gift_finder/feature/wishlist/presentation/cubit/wishlist_c
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await dotenv.load();
+  } catch (_) {
+    // .env may be absent in CI/tests; keys fall back to empty strings.
+  }
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   configureDependencies();

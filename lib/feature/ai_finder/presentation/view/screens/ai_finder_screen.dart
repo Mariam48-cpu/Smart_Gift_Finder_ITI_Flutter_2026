@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 // ============================================================
@@ -43,8 +44,7 @@ class AIGiftRequestEntity {
 // ============================================================
 
 class PexelsService {
-  final String apiKey =
-      'ycb5ecfYMBEVp9ZcIs9E04kLV43YWSdjRorlb9mD5TRJegNwrT2FtXTh';
+  final String apiKey = dotenv.env['PEXELS_API_KEY'] ?? '';
 
   Future<String> getImageForGift(String giftName) async {
     try {
@@ -87,17 +87,14 @@ class DirectGeminiService {
 
   DirectGeminiService(this.pexelsService);
 
-  // IMPORTANT:
-  // Do NOT use the old Gemini key that was exposed.
-  // Replace this with your NEW Gemini API key locally.
-  final String apiKey = 'AIzaSyDM4q4OoDjTDgkF51t4b0vNvvgJaLNihoQ';
+  final String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
 
   Future<List<AIGiftEntity>> fetchGiftRecommendations(
     AIGiftRequestEntity request,
   ) async {
     final url = Uri.parse(
       'https://generativelanguage.googleapis.com/v1beta/'
-      'models/gemini-2.5-flash:generateContent?key=$apiKey',
+      'models/gemini-3.5-flash:generateContent?key=$apiKey',
     );
 
     final prompt = '''

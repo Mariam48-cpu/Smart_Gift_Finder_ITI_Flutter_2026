@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/model/item/product_item_entity.dart';
+import '../../../../core/routes/app_routes.dart';
+import '../../../../core/widgets/product_item_card.dart';
+import '../../../cart/domain/entities/cart_item.dart';
+import '../../../cart/presentation/cubit/cart_cubit.dart';
 import '../cubit/wishlist_cubit.dart';
 import '../cubit/wishlist_state.dart';
 
@@ -86,88 +92,43 @@ class _WishlistScreenState extends State<WishlistScreen> {
               padding: const EdgeInsets.all(16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.7,
+                childAspectRatio: 0.65,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
               itemCount: state.items.length,
               itemBuilder: (context, index) {
                 final item = state.items[index];
-                final isFav = state.favoriteIds.contains(item.id);
 
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                return ProductItemCard(
+                  product: ProductItemEntity(
+                    id: int.tryParse(item.id) ?? 0,
+                    title: item.name,
+                    price: item.price,
+                    discountPercentage: 0,
+                    rating: item.rating,
+                    imageUrl: item.imageUrl,
                   ),
-                  clipBehavior: Clip.antiAlias,
-                  elevation: 2,
-                  child: Stack(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Image.network(
-                              item.imageUrl,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Container(
-                                color: Colors.grey.shade200,
-                                child: const Icon(Icons.image_not_supported),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '\$${item.price}',
-                                  style: const TextStyle(
-                                    color: Color(0xFF6C5CE7),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.productDetails,
+                      arguments: {'productId': int.tryParse(item.id) ?? 1},
+                    );
+                  },
+                  onAddToCart: () async {
+                    final cartCubit = context.read<CartCubit>();
+
+                    await cartCubit.addItem(
+                      CartItem(
+                        id: item.id,
+                        title: item.name,
+                        imageUrl: item.imageUrl,
+                        price: item.price,
+                        quantity: 1,
                       ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              isFav ? Icons.favorite : Icons.favorite_border,
-                              color: isFav ? Colors.red : Colors.grey,
-                            ),
-                            onPressed: () {
-                              context.read<WishlistCubit>().toggleFavorite(
-                                    userId: widget.userId,
-                                    productId: item.id,
-                                  );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 );
               },
             );
