@@ -6,10 +6,8 @@ import 'package:smart_gift_finder/feature/home/data/repo/home_repo_imp.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_categories_use_case.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_productbycategory_use_case.dart';
 import 'package:smart_gift_finder/feature/home/domain/use_case/get_products_use_case.dart';
+import 'package:smart_gift_finder/feature/search/peresentation/view/screens/search_screen.dart';
 import '../../../../../core/widgets/product_item_card.dart';
-import '../../../../cart/domain/entities/cart_item.dart';
-import '../../../../cart/presentation/cubit/cart_cubit.dart';
-import '../../../../cart/presentation/screens/cart_screen.dart';
 import '../../view_model/home_cubit.dart';
 import '../../view_model/home_state.dart';
 import '../widget/category_item.dart';
@@ -63,7 +61,14 @@ class HomeScreen extends StatelessWidget {
               const Spacer(),
               IconButton(
                 icon: const Icon(Icons.search, color: Colors.black),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -222,27 +227,13 @@ class HomeScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return ProductItemCard(
                                 product: state.products[index],
-                                onAddToCart: () async {
-                                  final product = state.products[index];
-
-                                  final cartCubit = context.read<CartCubit>();
-
-                                  await cartCubit.addItem(
-                                    CartItem(
-                                      id: product.id.toString(),
-                                      title: product.title,
-                                      imageUrl: product.imageUrl,
-                                      price: product.price.toDouble(),
-                                      quantity: 1,
-                                    ),
-                                  );
-
-                                  if (!context.mounted) return;
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const CartScreen(),
+                                onAddToCart: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${state.products[index].title} added to cart!',
+                                      ),
+                                      duration: const Duration(seconds: 1),
                                     ),
                                   );
                                 },

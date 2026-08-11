@@ -35,11 +35,11 @@ class Validators {
     }
 
     final passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$',
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#])[A-Za-z\d@$!%*?&.#]{8,}$',
     );
 
     if (!passwordRegex.hasMatch(value)) {
-      return "Password must contain uppercase, lowercase, number, and be at least 8 characters";
+      return "Password must contain uppercase, lowercase, number, special character and be at least 8 characters";
     }
 
     return null;
