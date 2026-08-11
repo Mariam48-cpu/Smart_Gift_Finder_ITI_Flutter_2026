@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_gift_finder/feature/ai_finder/presentation/view/screens/ai_finder_screen.dart';
@@ -7,7 +8,7 @@ abstract class ThirdPartyModule {
   @lazySingleton
   GenerativeModel get generativeModel => GenerativeModel(
         model: 'gemini-2.5-flash',
-        apiKey: 'AIzaSyDM4q4OoDjTDgkF51t4b0vNvvgJaLNihoQ',
+        apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
         generationConfig: GenerationConfig(
           responseMimeType: 'application/json',
         ),

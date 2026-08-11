@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../feature/cart/presentation/cubit/cart_cubit.dart';
+import '../../feature/cart/presentation/cubit/cart_state.dart';
 import '../model/item/product_item_entity.dart';
 import '../../feature/wishlist/presentation/screens/widgets/favorite_button.dart';
 
@@ -20,6 +23,8 @@ class ProductItemCard extends StatefulWidget {
 }
 
 class _ProductItemCardState extends State<ProductItemCard> {
+  bool _awaitingAdd = false;
+
   String get _userId =>
       FirebaseAuth.instance.currentUser?.uid ?? 'test_user_id';
 
@@ -126,20 +131,41 @@ class _ProductItemCardState extends State<ProductItemCard> {
                           color: Color(0xFF3B28CC),
                         ),
                       ),
-                      InkWell(
-                        onTap: widget.onAddToCart,
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF3B28CC),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(
-                            Icons.add_shopping_cart_rounded,
-                            size: 16,
-                            color: Colors.white,
-                          ),
-                        ),
+                      BlocConsumer<CartCubit, CartState>(
+                        listener: (context, state) {
+                          if (!_awaitingAdd) return;
+                          if (state is CartSuccess) {
+                            _awaitingAdd = false;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text('Added to cart successfully!'),
+                              ),
+                            );
+                          } else if (state is CartError) {
+                            _awaitingAdd = false;
+                          }
+                        },
+                        builder: (context, state) {
+                          return InkWell(
+                            onTap: () {
+                              _awaitingAdd = true;
+                              widget.onAddToCart?.call();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF3B28CC),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.add_shopping_cart_rounded,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
