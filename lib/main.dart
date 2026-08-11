@@ -3,25 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:smart_gift_finder/core/di/service_locator.dart';
-import 'package:smart_gift_finder/core/routes/app_routes.dart';
+import 'package:smart_gift_finder/feature/home/presentation/view/screens/home_screen.dart';
+import 'package:smart_gift_finder/feature/search/peresentation/view/screens/search_screen.dart';
+import 'package:smart_gift_finder/feature/search/peresentation/view_model/search_cubit.dart';
+
 import 'package:smart_gift_finder/firebase_options.dart';
-import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_imp.dart';
-import 'package:smart_gift_finder/feature/account/data/repository/account_repository_impl.dart';
-import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
+
 import 'package:smart_gift_finder/feature/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:smart_gift_finder/feature/auth/data/repositories/auth_repository_impl.dart';
 import 'package:smart_gift_finder/feature/auth/domain/usecases/login_usecase.dart';
 import 'package:smart_gift_finder/feature/auth/domain/usecases/register_usecase.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/cubit/auth_cubit.dart';
-import 'package:smart_gift_finder/feature/cart/presentation/cubit/cart_cubit.dart';
-import 'package:smart_gift_finder/feature/search/peresentation/view_model/search_cubit.dart';
+
+import 'package:smart_gift_finder/feature/account/data/datasource/account_data_source_imp.dart';
+import 'package:smart_gift_finder/feature/account/data/repository/account_repository_impl.dart';
+import 'package:smart_gift_finder/feature/account/presentation/cubit/account_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   configureDependencies();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final authRemoteDataSource = AuthRemoteDataSource();
 
@@ -66,21 +73,23 @@ class MyApp extends StatelessWidget {
             registerUseCase: RegisterUseCase(authRepository),
           ),
         ),
-        BlocProvider(create: (context) => AccountCubit(accountRepository)),
-        BlocProvider(create: (context) => serviceLocator<CartCubit>()),
-        BlocProvider(create: (context) => serviceLocator<SearchCubit>()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Smart Gift Finder',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF630ED4)),
-          scaffoldBackgroundColor: Colors.white,
+
+        BlocProvider(
+          create: (context) => AccountCubit(
+            accountRepository,
+          ),
         ),
-        initialRoute: Routes.splash,
-        onGenerateRoute: AppRouter.onGenerateRoute,
+
+        // Search Cubit
+        BlocProvider(
+          create: (context) => getIt<SearchCubit>(),
+        ),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
       ),
     );
   }
 }
+

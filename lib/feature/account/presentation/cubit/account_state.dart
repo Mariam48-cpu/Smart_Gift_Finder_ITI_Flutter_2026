@@ -1,3 +1,4 @@
+
 import 'package:smart_gift_finder/feature/account/domain/entities/account_entity.dart';
 
 sealed class AccountState {}

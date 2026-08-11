@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 
-class NewPasswordScreen extends StatefulWidget {
-  const NewPasswordScreen({super.key});
+class VerificationScreen extends StatefulWidget {
+  const VerificationScreen({super.key});
 
   @override
-  State<NewPasswordScreen> createState() => _NewPasswordScreenState();
+  State<VerificationScreen> createState() => _VerificationScreenState();
 }
 
-class _NewPasswordScreenState extends State<NewPasswordScreen> {
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
+class _VerificationScreenState extends State<VerificationScreen> {
+  final List<TextEditingController> _controllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
 
   @override
   void dispose() {
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
     super.dispose();
   }
 
@@ -68,6 +71,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
+
                 Container(
                   width: 72,
                   height: 72,
@@ -83,14 +87,15 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ],
                   ),
                   child: const Icon(
-                    Icons.lock_outline,
+                    Icons.security,
                     size: 32,
                     color: Color(0xFF630ED4),
                   ),
                 ),
                 const SizedBox(height: 24),
+
                 const Text(
-                  "New Password",
+                  "Verification",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Plus Jakarta Sans',
@@ -101,7 +106,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  "Enter and confirm your new\npassword",
+                  "Enter the 4-digit verification code\nsent to your email",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Plus Jakarta Sans',
@@ -112,6 +117,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
+
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
@@ -131,142 +137,92 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ],
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Enter New Password",
+                        "Enter Verification Code",
                         style: TextStyle(
                           fontFamily: 'Plus Jakarta Sans',
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF151C27),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        style: const TextStyle(
-                          fontFamily: 'Plus Jakarta Sans',
-                          fontSize: 14,
-                          color: Color(0xFF151C27),
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '8 symbols at least',
-                          hintStyle: const TextStyle(
-                            fontFamily: 'Plus Jakarta Sans',
-                            fontSize: 14,
-                            color: Color(0xFF7B7487),
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF9F9FF),
-                          prefixIcon: const Icon(
-                            Icons.lock_outline,
-                            size: 20,
-                            color: Color(0xFF7B7487),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              size: 20,
-                              color: const Color(0xFF7B7487),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 14,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(
-                              color: Color(0x33CCC3D8),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(
-                              color: Color(0xFF630ED4),
-                              width: 1.5,
-                            ),
-                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        "Confirm Password",
-                        style: TextStyle(
-                          fontFamily: 'Plus Jakarta Sans',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF151C27),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: _obscureConfirmPassword,
-                        style: const TextStyle(
-                          fontFamily: 'Plus Jakarta Sans',
-                          fontSize: 14,
-                          color: Color(0xFF151C27),
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '••••••••',
-                          hintStyle: const TextStyle(
-                            fontFamily: 'Plus Jakarta Sans',
-                            fontSize: 14,
-                            color: Color(0xFF7B7487),
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF9F9FF),
-                          prefixIcon: const Icon(
-                            Icons.lock_outline,
-                            size: 20,
-                            color: Color(0xFF7B7487),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscureConfirmPassword
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              size: 20,
-                              color: const Color(0xFF7B7487),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(4, (index) {
+                          return SizedBox(
+                            width: 56,
+                            height: 60,
+                            child: TextFormField(
+                              controller: _controllers[index],
+                              focusNode: _focusNodes[index],
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              maxLength: 1,
+                              style: const TextStyle(
+                                fontFamily: 'Plus Jakarta Sans',
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF630ED4),
+                              ),
+                              decoration: InputDecoration(
+                                counterText: "",
+                                filled: true,
+                                fillColor: const Color(0xFFF9F9FF),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(
+                                    color: Color(0x33CCC3D8),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF630ED4),
+                                    width: 1.5,
+                                  ),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                if (value.isNotEmpty && index < 3) {
+                                  _focusNodes[index + 1].requestFocus();
+                                } else if (value.isEmpty && index > 0) {
+                                  _focusNodes[index - 1].requestFocus();
+                                }
+                              },
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _obscureConfirmPassword =
-                                    !_obscureConfirmPassword;
-                              });
-                            },
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 14,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(
-                              color: Color(0x33CCC3D8),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(
-                              color: Color(0xFF630ED4),
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
+                          );
+                        }),
                       ),
                       const SizedBox(height: 24),
-                      SizedBox(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "If you didn't receive a code? ",
+                            style: TextStyle(
+                              fontFamily: 'Plus Jakarta Sans',
+                              fontSize: 13,
+                              color: Color(0xFF6B7280),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                            },
+                            child: const Text(
+                              "Resend",
+                              style: TextStyle(
+                                fontFamily: 'Plus Jakarta Sans',
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF630ED4),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),                      SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: DecoratedBox(
@@ -277,7 +233,12 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             ),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              String code = _controllers
+                                  .map((e) => e.text)
+                                  .join();
+                              // Perform code verification logic
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
@@ -286,7 +247,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               ),
                             ),
                             child: const Text(
-                              "Submit",
+                              "Verify",
                               style: TextStyle(
                                 fontFamily: 'Plus Jakarta Sans',
                                 fontSize: 16,
