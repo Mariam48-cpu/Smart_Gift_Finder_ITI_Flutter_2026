@@ -13,7 +13,6 @@ import '../../feature/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../feature/product_details/presentation/view/screens/product_details_screen.dart';
 import '../../feature/reset_password/new_password_screen.dart';
 import '../../feature/reset_password/peresentation/view/screens/reset_password_screen.dart';
-import '../../feature/reset_password/verification_screen.dart';
 import '../../feature/search/peresentation/view/screens/search_screen.dart';
 import '../../feature/splash/splash_view.dart';
 import '../../feature/wishlist/peresentation/view/screens/wish_list.dart';
@@ -66,9 +65,6 @@ abstract class AppRouter {
 
       case Routes.forgotPassword:
         return MaterialPageRoute(builder: (_) => const ResetPasswordScreen());
-
-      case Routes.verification:
-        return MaterialPageRoute(builder: (_) => const VerificationScreen());
 
       case Routes.newPassword:
         return MaterialPageRoute(builder: (_) => const NewPasswordScreen());
