@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_gift_finder/core/di/service_locator.dart';
@@ -179,7 +178,6 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
                                 ),
                               ),
                               const SizedBox(height: 16),
-
                               TextFormField(
                                 controller: _emailController,
                                 enabled: !isLoading,
@@ -234,7 +232,6 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
                                 ),
                               ),
                               const SizedBox(height: 16),
-
                               SizedBox(
                                 width: double.infinity,
                                 height: 46,
@@ -306,6 +303,9 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
                                     size: 16,
                                     color: Color(0xFF630ED4),
                                   ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
                                     child: const Text(
@@ -329,8 +329,7 @@ class _ResetPasswordViewState extends State<_ResetPasswordView> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                   RichText(
+                  RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       children: [
