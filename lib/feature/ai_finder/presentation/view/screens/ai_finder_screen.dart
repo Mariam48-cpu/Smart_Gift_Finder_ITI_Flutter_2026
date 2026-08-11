@@ -94,7 +94,7 @@ class DirectGeminiService {
   ) async {
     final url = Uri.parse(
       'https://generativelanguage.googleapis.com/v1beta/'
-      'models/gemini-2.5-flash:generateContent?key=$apiKey',
+      'models/gemini-3.5-flash:generateContent?key=$apiKey',
     );
 
     final prompt = '''

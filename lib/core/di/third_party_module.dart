@@ -7,7 +7,7 @@ import 'package:smart_gift_finder/feature/ai_finder/presentation/view/screens/ai
 abstract class ThirdPartyModule {
   @lazySingleton
   GenerativeModel get generativeModel => GenerativeModel(
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.5-flash',
         apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
         generationConfig: GenerationConfig(
           responseMimeType: 'application/json',
