@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/routes/app_routes.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
@@ -235,8 +234,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                           child: ElevatedButton(
                             onPressed: () {
+                              String code = _controllers
+                                  .map((e) => e.text)
+                                  .join();
                               // Perform code verification logic
-                              Navigator.pushNamed(context, Routes.newPassword);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,

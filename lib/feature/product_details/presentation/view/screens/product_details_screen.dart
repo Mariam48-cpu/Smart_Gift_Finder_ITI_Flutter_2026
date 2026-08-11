@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import '../../../../../../core/routes/app_routes.dart';
-import '../../../../cart/domain/entities/cart_item.dart';
-import '../../../../cart/presentation/cubit/cart_cubit.dart';
-import '../../../../cart/presentation/screens/cart_screen.dart';
 import '../product_details_cubit.dart';
 import 'product_images_slider.dart';
 import 'product_info_section.dart';
@@ -83,7 +80,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _buildBottomBar(context, product),
+                  _buildBottomBar(context),
                 ],
               );
             }
@@ -95,7 +92,7 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomBar(BuildContext context, dynamic product) {
+  Widget _buildBottomBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -112,34 +109,8 @@ class ProductDetailsScreen extends StatelessWidget {
         children: [
           Expanded(
             child: OutlinedButton.icon(
-              onPressed: () async {
-                final cartCubit = context.read<CartCubit>();
-                await cartCubit.addItem(
-                  CartItem(
-                    id: product['id'].toString(),
-                    title: product['title'] ?? '',
-                    imageUrl: (product['images'] != null &&
-                            (product['images'] as List).isNotEmpty)
-                        ? product['images'][0]
-                        : '',
-                    price: (product['price'] ?? 0).toDouble(),
-                    quantity: 1,
-                  ),
-                );
-
-                cartCubit.loadCart();
-
-                // if (context.mounted) {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => BlocProvider.value(
-                //         value: cartCubit,
-                //         child: const CartScreen(),
-                //       ),
-                //     ),
-                //   );
-                // }
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.cart);
               },
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),

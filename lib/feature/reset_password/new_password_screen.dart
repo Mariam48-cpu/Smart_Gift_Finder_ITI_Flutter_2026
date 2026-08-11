@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/routes/app_routes.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});
@@ -278,13 +277,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             ),
                           ),
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                Routes.appSection,
-                                (route) => false,
-                              );
-                            },
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,

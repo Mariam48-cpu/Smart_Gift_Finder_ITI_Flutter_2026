@@ -34,4 +34,14 @@ class AccountRemoteDataSourceImpl implements AccountDataSourceInterface {
         .set(user.toJson(), SetOptions(merge: true));
   }
 
+  @override
+  Future<void> updateUserData(AccountEntity user) async {
+    await firestore.collection('users').doc(user.uid).set({
+      'name': user.name,
+      'phone': user.phone,
+      'address': user.address,
+      'birthday': user.birthday,
+      'imageUrl': user.imageUrl,
+    }, SetOptions(merge: true));
+  }
 }

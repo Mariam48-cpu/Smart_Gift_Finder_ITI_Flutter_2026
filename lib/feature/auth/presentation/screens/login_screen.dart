@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_gift_finder/core/routes/app_routes.dart';
 import 'package:smart_gift_finder/feature/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/ services/secure_storage_service.dart';
@@ -11,7 +10,7 @@ import '../../../../core/widgets/custom_text_field.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -36,22 +35,21 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) async {
-        final messenger = ScaffoldMessenger.of(context);
         if (state is LoginSuccess) {
-          messenger.showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login Successfully")),
           );
-          Navigator.of(context).pushReplacementNamed(Routes.appSection);
 
           final token = await FirebaseAuth.instance.currentUser?.getIdToken();
 
           if (token != null) {
+
             await SecureStorageService().saveToken(token);
           }
         }
 
         if (state is AuthError) {
-          messenger.showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
             ),
@@ -87,7 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.primary,
                         size: 18,
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                 ),
@@ -201,9 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.forgotPassword);
-                      },
+                      onPressed: () {},
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(

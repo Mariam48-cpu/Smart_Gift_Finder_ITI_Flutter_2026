@@ -7,11 +7,12 @@ class ProductItemCard extends StatefulWidget {
   final VoidCallback? onAddToCart;
 
   const ProductItemCard({
-    super.key,
+    Key? key,
     required this.product,
     this.onTap,
     this.onAddToCart,
-  });
+  
+  }) : super(key: key);
 
   @override
   State<ProductItemCard> createState() => _ProductItemCardState();
@@ -30,7 +31,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
